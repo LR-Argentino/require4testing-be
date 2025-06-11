@@ -10,3 +10,5 @@ spring:
     username: myuser
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
