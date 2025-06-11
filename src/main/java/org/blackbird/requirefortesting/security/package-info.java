@@ -7,9 +7,8 @@
  */
 
 @ApplicationModule(
-        displayName = "Security Module",
-        allowedDependencies = {"shared"}
-)
+    displayName = "Security Module",
+    allowedDependencies = {"shared"})
 package org.blackbird.requirefortesting.security;
 
 import org.springframework.modulith.ApplicationModule;
