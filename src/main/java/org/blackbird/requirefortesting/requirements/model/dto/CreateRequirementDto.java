@@ -1,3 +1,5 @@
 package org.blackbird.requirefortesting.requirements.model.dto;
 
-public record CreateRequirementDto(String title, String description, String priority) {}
+import org.blackbird.requirefortesting.shared.Priority;
+
+public record CreateRequirementDto(String title, String description, Priority priority) {}

@@ -2,16 +2,14 @@ package org.blackbird.requirefortesting.requirements.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 
 @Table(name = "requirement")
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class Requirement {
@@ -28,7 +26,7 @@ public class Requirement {
   private Priority priority;
 
   @Column(nullable = false)
-  private Status status;
+  private Status status = Status.OPEN;
 
   private LocalDateTime updatedAt;
 
