@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.model.dto.CreateRequirementDto;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.junit.jupiter.api.Test;
@@ -48,20 +48,6 @@ public class RequirementServiceTests {
   }
 
   @Test
-  void test_createWithNullPriortiy_shouldThrowException() {
-    String title = "Test Requirement";
-    String description = "This is a test requirement.";
-
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, null);
-
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          requirementService.createRequirement(createRequirement);
-        });
-  }
-
-  @Test
   void test_createWithSpecialCharactersInTitle_shouldThrowException() {
     String title = "Requirement @#$%";
     String description = "This is a test requirement with special characters.";
@@ -87,5 +73,17 @@ public class RequirementServiceTests {
     Requirement requirement = requirementService.createRequirement(createRequirement);
 
     assertThat(requirement.getStatus()).isEqualTo(Status.OPEN);
+  }
+
+  @Test
+  void test_createWithPriorityNull_priorityShouldBeLow() throws Exception {
+    String title = "Valid Requirement";
+    String description = "This requirement is valid and should be created.";
+
+    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, null);
+
+    Requirement requirement = requirementService.createRequirement(createRequirement);
+
+    assertThat(requirement.getPriority()).isEqualTo(Priority.LOW);
   }
 }

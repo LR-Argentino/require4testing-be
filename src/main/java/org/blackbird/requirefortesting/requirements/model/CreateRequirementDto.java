@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements.model.dto;
+package org.blackbird.requirefortesting.requirements.model;
 
 import org.blackbird.requirefortesting.shared.Priority;
 

@@ -1,9 +1,11 @@
 package org.blackbird.requirefortesting.requirements.service;
 
+import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.model.dto.CreateRequirementDto;
+import org.blackbird.requirefortesting.shared.Priority;
 
 public class RequirementServiceImpl implements RequirementService {
+
   @Override
   public Requirement createRequirement(CreateRequirementDto createRequirement) throws Exception {
     if (createRequirement == null) {
@@ -17,10 +19,6 @@ public class RequirementServiceImpl implements RequirementService {
           "Requirement title cannot be empty or contain special characters");
     }
 
-    if (createRequirement.priority() == null) {
-      throw new IllegalArgumentException("Requirement priority cannot be null");
-    }
-
     return mapToRequirement(createRequirement);
   }
 
@@ -28,7 +26,8 @@ public class RequirementServiceImpl implements RequirementService {
     Requirement requirement = new Requirement();
     requirement.setTitle(createRequirement.title());
     requirement.setDescription(createRequirement.description());
-    requirement.setPriority(createRequirement.priority());
+    requirement.setPriority(
+        createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW);
     return requirement;
   }
 }
