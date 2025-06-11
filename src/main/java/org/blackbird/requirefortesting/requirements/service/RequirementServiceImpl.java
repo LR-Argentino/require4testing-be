@@ -3,11 +3,13 @@ package org.blackbird.requirefortesting.requirements.service;
 import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.shared.Priority;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RequirementServiceImpl implements RequirementService {
 
   @Override
-  public Requirement createRequirement(CreateRequirementDto createRequirement) throws Exception {
+  public Requirement createRequirement(CreateRequirementDto createRequirement) {
     if (createRequirement == null) {
       throw new IllegalArgumentException("Requirement data cannot be null");
     }

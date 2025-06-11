@@ -4,5 +4,5 @@ import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 
 public interface RequirementService {
-  Requirement createRequirement(CreateRequirementDto createRequirement) throws Exception;
+  Requirement createRequirement(CreateRequirementDto createRequirement);
 }

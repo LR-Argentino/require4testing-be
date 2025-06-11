@@ -63,7 +63,7 @@ public class RequirementServiceTests {
   }
 
   @Test
-  void test_createWithValidData_statusShouldBeOpen() throws Exception {
+  void test_createWithValidData_statusShouldBeOpen() {
     String title = "Valid Requirement";
     String description = "This requirement is valid and should be created.";
     Priority priority = Priority.MEDIUM;
@@ -76,7 +76,7 @@ public class RequirementServiceTests {
   }
 
   @Test
-  void test_createWithPriorityNull_priorityShouldBeLow() throws Exception {
+  void test_createWithPriorityNull_priorityShouldBeLow() {
     String title = "Valid Requirement";
     String description = "This requirement is valid and should be created.";
 
