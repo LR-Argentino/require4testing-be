@@ -1,3 +1,7 @@
 package org.blackbird.requirefortesting.requirements.service;
 
-public interface RequirementService {}
+import org.blackbird.requirefortesting.requirements.model.dto.CreateRequirementDto;
+
+public interface RequirementService {
+  void createRequirement(CreateRequirementDto createRequirement);
+}
