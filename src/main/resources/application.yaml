@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: requirefortesting
+
+
+  datasource:
+    name: requirefortesting
+    url: "jdbc:postgresql://localhost:5432/requirefortesting"
+    password: secret
+    username: myuser
+  jpa:
+    show-sql: true
