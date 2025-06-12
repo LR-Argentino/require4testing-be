@@ -244,4 +244,37 @@ public class RequirementServiceTests {
     assertThat(updatedRequirement.getDescription()).isEqualTo(description);
     assertThat(updatedRequirement.getPriority()).isEqualTo(priority);
   }
+
+  @Test
+  void test_deleteWithInvalidId_shouldThrowException() {
+    Long id = 999L;
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.empty());
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          requirementService.deleteRequirement(id);
+        });
+  }
+
+  @Test
+  void test_deleteWithValidId_shouldDeleteRequirement() {
+    Long id = 1L;
+
+    Requirement existingRequirement =
+        Requirement.builder()
+            .id(id)
+            .title("Old Title")
+            .description("Old Description")
+            .priority(Priority.LOW)
+            .build();
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
+
+    assertDoesNotThrow(
+        () -> {
+          requirementService.deleteRequirement(id);
+        });
+  }
 }

@@ -60,6 +60,19 @@ public class RequirementServiceImpl implements RequirementService {
     return requirement;
   }
 
+  @Override
+  @Transactional
+  public void deleteRequirement(Long id) {
+    Requirement requirement =
+        requirementRepository
+            .findById(id)
+            .orElseThrow(
+                () ->
+                    new IllegalArgumentException("Requirement with id " + id + " does not exist"));
+
+    requirementRepository.delete(requirement);
+  }
+
   private Requirement mapToRequirement(CreateOrUpdateRequirementDto createRequirement) {
     Requirement requirement =
         Requirement.builder()

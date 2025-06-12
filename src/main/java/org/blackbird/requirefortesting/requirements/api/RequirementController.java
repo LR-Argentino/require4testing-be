@@ -30,4 +30,10 @@ public class RequirementController {
     Requirement updatedRequirement = requirementService.updateRequirement(id, requirement);
     return ResponseEntity.ok(updatedRequirement);
   }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> deleteRequirement(@PathVariable Long id) {
+    requirementService.deleteRequirement(id);
+    return ResponseEntity.noContent().build();
+  }
 }
