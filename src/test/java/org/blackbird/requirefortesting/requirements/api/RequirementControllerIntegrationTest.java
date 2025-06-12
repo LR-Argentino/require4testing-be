@@ -1,8 +1,7 @@
 package org.blackbird.requirefortesting.requirements.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -21,13 +20,19 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@Testcontainers
 class RequirementControllerIntegrationTest {
 
   @Autowired private MockMvc mockMvc;
@@ -35,6 +40,20 @@ class RequirementControllerIntegrationTest {
 
   @Autowired private RequirementService requirementService;
   @Autowired private RequirementRepository requirementRepository;
+
+  @Container
+  static PostgreSQLContainer<?> postgres =
+      new PostgreSQLContainer<>("postgres:latest")
+          .withDatabaseName("testdb")
+          .withUsername("testuser")
+          .withPassword("secret");
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    registry.add("spring.datasource.username", postgres::getUsername);
+    registry.add("spring.datasource.password", postgres::getPassword);
+  }
 
   @Test
   @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
@@ -87,5 +106,26 @@ class RequirementControllerIntegrationTest {
     Optional<Requirement> updated = requirementRepository.findById(existing.getId());
     assertThat(updated).isPresent();
     assertThat(updated.get().getTitle()).isEqualTo("Updated Title");
+  }
+
+  @Test
+  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
+  void test_deleteRequirement_shouldRemoveFromDatabase() throws Exception {
+    Requirement existing =
+        requirementRepository.save(
+            Requirement.builder()
+                .title("To be deleted")
+                .description("This will be deleted")
+                .priority(Priority.LOW)
+                .status(Status.OPEN)
+                .build());
+
+    mockMvc
+        .perform(delete("/api/requirements/{id}", existing.getId()))
+        .andDo(print())
+        .andExpect(status().isNoContent());
+
+    Optional<Requirement> deleted = requirementRepository.findById(existing.getId());
+    assertThat(deleted).isNotPresent();
   }
 }
