@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import java.util.Optional;
 import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
@@ -103,5 +104,120 @@ public class RequirementServiceTests {
     Requirement result = requirementService.createRequirement(createRequirement);
 
     assertThat(result.getPriority()).isEqualTo(Priority.LOW);
+  }
+
+  @Test
+  void test_updateWithValidData_shouldUpdateRequirement() {
+    Long id = 1L;
+    String title = "Updated Requirement";
+    String description = "This is an updated test requirement.";
+    Priority priority = Priority.MEDIUM;
+
+    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+
+    Requirement existingRequirement = new Requirement();
+    existingRequirement.setId(id);
+    existingRequirement.setTitle("Old Title");
+    existingRequirement.setDescription("Old Description");
+    existingRequirement.setPriority(Priority.LOW);
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
+
+    assertDoesNotThrow(
+        () -> {
+          requirementService.updateRequirement(id, updateRequirement);
+        });
+  }
+
+  @Test
+  void test_updateWithInvalidId_shouldThrowException() {
+    Long id = 999L; // Assuming this ID does not exist
+    String title = "Updated Requirement";
+    String description = "This is an updated test requirement.";
+    Priority priority = Priority.MEDIUM;
+
+    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.empty());
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          requirementService.updateRequirement(id, updateRequirement);
+        });
+  }
+
+  @Test
+  void test_updateWithInvalidData_shouldThrowException() {
+    Long id = 1L;
+    String title = ""; // Invalid title
+    String description = "This is an updated test requirement.";
+    Priority priority = Priority.MEDIUM;
+
+    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+
+    Requirement existingRequirement = new Requirement();
+    existingRequirement.setId(id);
+    existingRequirement.setTitle("Old Title");
+    existingRequirement.setDescription("Old Description");
+    existingRequirement.setPriority(Priority.LOW);
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          requirementService.updateRequirement(id, updateRequirement);
+        });
+  }
+
+  @Test
+  void test_updateOnStatusInProgress_shouldThrowException() {
+    Long id = 1L;
+    String title = "Updated Requirement";
+    String description = "This is an updated test requirement.";
+    Priority priority = Priority.MEDIUM;
+
+    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+
+    Requirement existingRequirement = new Requirement();
+    existingRequirement.setId(id);
+    existingRequirement.setTitle("Old Title");
+    existingRequirement.setDescription("Old Description");
+    existingRequirement.setPriority(Priority.LOW);
+    existingRequirement.setStatus(Status.IN_PROGRESS);
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
+
+    assertThrows(
+        IllegalStateException.class,
+        () -> {
+          requirementService.updateRequirement(id, updateRequirement);
+        });
+  }
+
+  @Test
+  void test_updateOnStatusOpen_shouldUpdateAndReturnedRequirement() {
+    Long id = 1L;
+    String title = "Updated Requirement";
+    String description = "This is an updated test requirement.";
+    Priority priority = Priority.MEDIUM;
+
+    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+
+    Requirement existingRequirement = new Requirement();
+    existingRequirement.setId(id);
+    existingRequirement.setTitle("Old Title");
+    existingRequirement.setDescription("Old Description");
+    existingRequirement.setPriority(Priority.LOW);
+    existingRequirement.setStatus(Status.OPEN);
+
+    when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
+
+    Requirement updatedRequirement = requirementService.updateRequirement(id, updateRequirement);
+
+    assertThat(updatedRequirement.getTitle()).isEqualTo(title);
+    assertThat(updatedRequirement.getDescription()).isEqualTo(description);
+    assertThat(updatedRequirement.getPriority()).isEqualTo(priority);
   }
 }

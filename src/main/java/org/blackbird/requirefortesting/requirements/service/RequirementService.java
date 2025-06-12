@@ -5,4 +5,6 @@ import org.blackbird.requirefortesting.requirements.model.Requirement;
 
 public interface RequirementService {
   Requirement createRequirement(CreateRequirementDto createRequirement);
+
+  Requirement updateRequirement(Long id, CreateRequirementDto updateRequirement);
 }
