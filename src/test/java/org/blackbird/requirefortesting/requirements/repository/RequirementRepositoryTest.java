@@ -2,6 +2,7 @@ package org.blackbird.requirefortesting.requirements.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.junit.jupiter.api.Test;

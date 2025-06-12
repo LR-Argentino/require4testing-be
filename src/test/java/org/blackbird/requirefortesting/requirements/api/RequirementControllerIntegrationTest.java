@@ -8,9 +8,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
+import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;

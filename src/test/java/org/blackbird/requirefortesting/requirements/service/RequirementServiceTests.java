@@ -6,9 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
+import org.blackbird.requirefortesting.requirements.internal.RequirementServiceImpl;
+import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.junit.jupiter.api.Test;
