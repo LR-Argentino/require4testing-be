@@ -1,7 +1,7 @@
 package org.blackbird.requirefortesting.requirements.api;
 
 import lombok.RequiredArgsConstructor;
-import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
+import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +19,15 @@ public class RequirementController {
   @PreAuthorize("hasAnyRole('REQUIREMENTS_ENGINEER')")
   @PostMapping
   public ResponseEntity<Requirement> createRequirement(
-      @RequestBody CreateRequirementDto requirement) {
+      @RequestBody CreateOrUpdateRequirementDto requirement) {
     Requirement newRequirement = requirementService.createRequirement(requirement);
     return ResponseEntity.ok(newRequirement);
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Requirement> updateRequirement(
+      @PathVariable Long id, @RequestBody CreateOrUpdateRequirementDto requirement) {
+    Requirement updatedRequirement = requirementService.updateRequirement(id, requirement);
+    return ResponseEntity.ok(updatedRequirement);
   }
 }

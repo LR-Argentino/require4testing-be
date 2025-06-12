@@ -35,10 +35,12 @@ public class RequirementRepositoryTest {
 
   @Test
   void test_save_shouldSaveRequirement() {
-    Requirement requirement = new Requirement();
-    requirement.setTitle("Test Requirement");
-    requirement.setDescription("This is a test requirement");
-    requirement.setPriority(Priority.LOW);
+    Requirement requirement =
+        Requirement.builder()
+            .title("Test Requirement")
+            .description("This is a test requirement")
+            .priority(Priority.LOW)
+            .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
     assertNotNull(savedRequirement.getId());
@@ -48,9 +50,11 @@ public class RequirementRepositoryTest {
 
   @Test
   void test_save_shouldNotSaveRequirementWithoutTitle() {
-    Requirement requirement = new Requirement();
-    requirement.setDescription("This is a test requirement without title");
-    requirement.setPriority(Priority.LOW);
+    Requirement requirement =
+        Requirement.builder()
+            .description("This is a test requirement without title")
+            .priority(Priority.LOW)
+            .build();
 
     try {
       requirementRepository.save(requirement);

@@ -7,11 +7,11 @@ import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 
 @Table(name = "requirement")
-@Entity
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor
+@Builder
+@Entity
 public class Requirement {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,7 @@ public class Requirement {
   private Priority priority;
 
   @Column(nullable = false)
+  @Builder.Default
   private Status status = Status.OPEN;
 
   private LocalDateTime updatedAt;

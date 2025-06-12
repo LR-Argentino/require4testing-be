@@ -1,12 +1,13 @@
 package org.blackbird.requirefortesting.requirements.service;
 
 import lombok.RequiredArgsConstructor;
-import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
+import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +16,8 @@ public class RequirementServiceImpl implements RequirementService {
   private final RequirementRepository requirementRepository;
 
   @Override
-  public Requirement createRequirement(CreateRequirementDto createRequirement) {
+  @Transactional
+  public Requirement createRequirement(CreateOrUpdateRequirementDto createRequirement) {
     if (createRequirement == null) {
       throw new IllegalArgumentException("Requirement data cannot be null");
     }
@@ -28,7 +30,8 @@ public class RequirementServiceImpl implements RequirementService {
   }
 
   @Override
-  public Requirement updateRequirement(Long id, CreateRequirementDto updateRequirement) {
+  @Transactional
+  public Requirement updateRequirement(Long id, CreateOrUpdateRequirementDto updateRequirement) {
 
     if (updateRequirement == null) {
       throw new IllegalArgumentException("Update data cannot be null");
@@ -57,12 +60,15 @@ public class RequirementServiceImpl implements RequirementService {
     return requirement;
   }
 
-  private Requirement mapToRequirement(CreateRequirementDto createRequirement) {
-    Requirement requirement = new Requirement();
-    requirement.setTitle(createRequirement.title());
-    requirement.setDescription(createRequirement.description());
-    requirement.setPriority(
-        createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW);
+  private Requirement mapToRequirement(CreateOrUpdateRequirementDto createRequirement) {
+    Requirement requirement =
+        Requirement.builder()
+            .title(createRequirement.title())
+            .description(createRequirement.description())
+            .priority(
+                createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW)
+            .build();
+
     return requirement;
   }
 

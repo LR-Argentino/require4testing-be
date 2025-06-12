@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
-import org.blackbird.requirefortesting.requirements.model.CreateRequirementDto;
+import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
 import org.blackbird.requirefortesting.shared.Priority;
@@ -29,7 +29,8 @@ public class RequirementServiceTests {
     String description = "This is a test requirement.";
     Priority priority = Priority.HIGH;
 
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto createRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
     assertDoesNotThrow(
         () -> {
@@ -43,7 +44,8 @@ public class RequirementServiceTests {
     String description = "This is a test requirement.";
     Priority priority = Priority.HIGH;
 
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto createRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -58,7 +60,8 @@ public class RequirementServiceTests {
     String description = "This is a test requirement with special characters.";
     Priority priority = Priority.HIGH;
 
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto createRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -73,13 +76,16 @@ public class RequirementServiceTests {
     String description = "This requirement is valid and should be created.";
     Priority priority = Priority.MEDIUM;
 
-    Requirement expectedRequirement = new Requirement();
-    expectedRequirement.setTitle(title);
-    expectedRequirement.setDescription(description);
-    expectedRequirement.setPriority(priority);
-    expectedRequirement.setStatus(Status.OPEN);
+    Requirement expectedRequirement =
+        Requirement.builder()
+            .title(title)
+            .description(description)
+            .priority(priority)
+            .status(Status.OPEN)
+            .build();
 
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto createRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
     when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
 
@@ -92,13 +98,18 @@ public class RequirementServiceTests {
   void test_createWithPriorityNull_priorityShouldBeLow() {
     String title = "Valid Requirement";
     String description = "This requirement is valid and should be created.";
-    Requirement expectedRequirement = new Requirement();
-    expectedRequirement.setTitle(title);
-    expectedRequirement.setDescription(description);
-    expectedRequirement.setPriority(Priority.LOW);
-    expectedRequirement.setStatus(Status.OPEN);
+    Priority priority = Priority.LOW;
 
-    CreateRequirementDto createRequirement = new CreateRequirementDto(title, description, null);
+    Requirement expectedRequirement =
+        Requirement.builder()
+            .title(title)
+            .description(description)
+            .priority(priority)
+            .status(Status.OPEN)
+            .build();
+
+    CreateOrUpdateRequirementDto createRequirement =
+        new CreateOrUpdateRequirementDto(title, description, null);
     when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
     Requirement result = requirementService.createRequirement(createRequirement);
@@ -113,13 +124,16 @@ public class RequirementServiceTests {
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
-    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto updateRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
-    Requirement existingRequirement = new Requirement();
-    existingRequirement.setId(id);
-    existingRequirement.setTitle("Old Title");
-    existingRequirement.setDescription("Old Description");
-    existingRequirement.setPriority(Priority.LOW);
+    Requirement existingRequirement =
+        Requirement.builder()
+            .id(id)
+            .title("Old Title")
+            .description("Old Description")
+            .priority(Priority.LOW)
+            .build();
 
     when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
 
@@ -136,7 +150,8 @@ public class RequirementServiceTests {
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
-    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto updateRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
     when(requirementRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -154,13 +169,16 @@ public class RequirementServiceTests {
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
-    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto updateRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
-    Requirement existingRequirement = new Requirement();
-    existingRequirement.setId(id);
-    existingRequirement.setTitle("Old Title");
-    existingRequirement.setDescription("Old Description");
-    existingRequirement.setPriority(Priority.LOW);
+    Requirement existingRequirement =
+        Requirement.builder()
+            .id(id)
+            .title("Old Title")
+            .description("Old Description")
+            .priority(Priority.LOW)
+            .build();
 
     when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
 
@@ -178,14 +196,17 @@ public class RequirementServiceTests {
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
-    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto updateRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
-    Requirement existingRequirement = new Requirement();
-    existingRequirement.setId(id);
-    existingRequirement.setTitle("Old Title");
-    existingRequirement.setDescription("Old Description");
-    existingRequirement.setPriority(Priority.LOW);
-    existingRequirement.setStatus(Status.IN_PROGRESS);
+    Requirement existingRequirement =
+        Requirement.builder()
+            .id(id)
+            .title("Old Title")
+            .description("Old Description")
+            .priority(Priority.LOW)
+            .status(Status.IN_PROGRESS)
+            .build();
 
     when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
 
@@ -203,14 +224,17 @@ public class RequirementServiceTests {
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
-    CreateRequirementDto updateRequirement = new CreateRequirementDto(title, description, priority);
+    CreateOrUpdateRequirementDto updateRequirement =
+        new CreateOrUpdateRequirementDto(title, description, priority);
 
-    Requirement existingRequirement = new Requirement();
-    existingRequirement.setId(id);
-    existingRequirement.setTitle("Old Title");
-    existingRequirement.setDescription("Old Description");
-    existingRequirement.setPriority(Priority.LOW);
-    existingRequirement.setStatus(Status.OPEN);
+    Requirement existingRequirement =
+        Requirement.builder()
+            .id(id)
+            .title("Old Title")
+            .description("Old Description")
+            .priority(Priority.LOW)
+            .status(Status.OPEN)
+            .build();
 
     when(requirementRepository.findById(id)).thenReturn(Optional.of(existingRequirement));
 
