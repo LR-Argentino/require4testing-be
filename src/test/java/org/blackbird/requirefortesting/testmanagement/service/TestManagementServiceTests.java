@@ -8,15 +8,15 @@ import org.blackbird.requirefortesting.testmanagement.internal.repository.TestMa
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.modulith.test.ApplicationModuleTest;
 
 @ApplicationModuleTest(module = "testmanagement")
 public class TestManagementServiceTests {
 
   @Mock private TestManagementRepository testManagementRepository;
-  @Autowired private TestManagementServiceImpl testManagementService;
+  @InjectMocks private TestManagementServiceImpl testManagementService;
 
   @Test
   void test_createTestCaseWithInvalidTitle_shouldThrowException() {
