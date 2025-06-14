@@ -8,7 +8,7 @@ import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirem
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -20,7 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 class RequirementsModuleTests {
 
-  @InjectMocks private RequirementServiceImpl requirementService;
+  @Autowired private RequirementServiceImpl requirementService;
 
   @DynamicPropertySource
   static void configureProperties(DynamicPropertyRegistry registry) {
