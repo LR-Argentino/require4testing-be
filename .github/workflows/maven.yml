@@ -18,6 +18,22 @@ jobs:
   # Tests (Service Layer)
   tests:
     runs-on: ubuntu-latest
+
+    services:
+          postgres:
+            image: postgres:15
+            env:
+              POSTGRES_PASSWORD: secret
+              POSTGRES_USER: myuser  
+              POSTGRES_DB: requirefortesting
+            ports:
+              - 5432:5432
+            options: >-
+              --health-cmd pg_isready
+              --health-interval 10s
+              --health-timeout 5s
+              --health-retries 5
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up GraalVM CE 24
@@ -34,6 +50,8 @@ jobs:
         
     - name: Run all tests (Service + Repository with Testcontainers)
       run: ./mvnw clean test
+      env:
+        SPRING_PROFILES_ACTIVE: ci 
   
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
