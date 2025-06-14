@@ -3,9 +3,9 @@ package org.blackbird.requirefortesting.requirements;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.blackbird.requirefortesting.TestPostgreSQLContainer;
+import org.blackbird.requirefortesting.requirements.internal.RequirementServiceImpl;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.service.RequirementService;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 class RequirementsModuleTests {
 
-  @InjectMocks private RequirementService requirementService;
+  @InjectMocks private RequirementServiceImpl requirementService;
 
   @DynamicPropertySource
   static void configureProperties(DynamicPropertyRegistry registry) {
