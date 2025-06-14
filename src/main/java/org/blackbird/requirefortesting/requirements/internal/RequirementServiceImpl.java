@@ -1,9 +1,10 @@
-package org.blackbird.requirefortesting.requirements.service;
+package org.blackbird.requirefortesting.requirements.internal;
 
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
-import org.blackbird.requirefortesting.requirements.repository.RequirementRepository;
+import org.blackbird.requirefortesting.requirements.service.RequirementService;
+import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.springframework.stereotype.Service;

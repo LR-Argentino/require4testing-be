@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements.repository;
+package org.blackbird.requirefortesting.requirements.internal.repository;
 
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.springframework.data.jpa.repository.JpaRepository;
