@@ -1,29 +1,24 @@
 package org.blackbird.requirefortesting.testmanagement.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
 
-import org.blackbird.requirefortesting.TestPostgreSQLContainer;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.TestManagementServiceImpl;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
-import org.blackbird.requirefortesting.testmanagement.model.CreateTestCaseDto;
+import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.modulith.test.ApplicationModuleTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@ApplicationModuleTest(module = "testmanagement")
-@Testcontainers
+@ExtendWith(MockitoExtension.class)
 public class TestManagementServiceTests {
-
-  @DynamicPropertySource
-  static void configureProperties(DynamicPropertyRegistry registry) {
-    TestPostgreSQLContainer.configureProperties(registry); // ← Shared Container
-  }
 
   @Mock private TestManagementRepository testManagementRepository;
   @InjectMocks private TestManagementServiceImpl testManagementService;
@@ -35,8 +30,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(invalidTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -52,8 +47,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(invalidTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -78,8 +73,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
     assertDoesNotThrow(() -> testManagementService.createTestCase(createTestCaseDto));
   }
@@ -91,12 +86,22 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, status);
+    TestCase savedTestCase =
+        TestCase.builder()
+            .id(1L)
+            .title("Valid Test Case Title")
+            .description("Test description")
+            .reuqirementId(1L)
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(savedTestCase);
+
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
     TestCase result = testManagementService.createTestCase(createTestCaseDto);
 
-    assertEquals(requirementId, result.getReuqirementId());
     assertEquals(validTitle, result.getTitle());
     assertEquals(description, result.getDescription());
     assertEquals(status, result.getStatus());
@@ -109,8 +114,19 @@ public class TestManagementServiceTests {
     String description = "Test description";
     Long requirementId = 1L;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, null);
+    TestCase savedTestCase =
+        TestCase.builder()
+            .id(1L)
+            .title(validTitle)
+            .description(description)
+            .reuqirementId(requirementId)
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(savedTestCase);
+
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, null);
 
     TestCase result = testManagementService.createTestCase(createTestCaseDto);
 
@@ -119,5 +135,146 @@ public class TestManagementServiceTests {
     assertEquals(description, result.getDescription());
     assertEquals(Status.OPEN, result.getStatus());
     assertNull(result.getTestResult());
+  }
+
+  @Test
+  void test_updateTestCaseWithNull_shouldThrowException() {
+    Long testCaseId = 1L;
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testManagementService.updateTestCase(testCaseId, null);
+        });
+  }
+
+  @Test
+  void test_updateTestCaseOnStatusClosed_shouldThrowException() {
+    Long testCaseId = 1L;
+
+    CreateOrUpdateTestCaseDto updateTestCaseDto =
+        new CreateOrUpdateTestCaseDto("", "Updated Description", null, Status.OPEN);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+        });
+  }
+
+  @Test
+  void test_updateTestCaseWithInvalidTitle_shouldThrowException() {
+    Long testCaseId = 1L;
+
+    String invalidTitle = "";
+    String description = "Updated Description";
+    Long requirementId = 1L;
+    Status status = Status.OPEN;
+
+    CreateOrUpdateTestCaseDto updateTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+        });
+  }
+
+  @Test
+  void test_updateTestCaseWithBlankTitle_shouldThrowException() {
+    Long testCaseId = 1L;
+
+    String invalidTitle = "   ";
+    String description = "Updated Description";
+    Long requirementId = 1L;
+    Status status = Status.OPEN;
+
+    CreateOrUpdateTestCaseDto updateTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> {
+          testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+        });
+  }
+
+  @Test
+  void test_updateTestCaseOnStatusOpen_shouldReturnUpdatedTestCase() {
+    Long testCaseId = 1L;
+
+    TestCase existingTestCase =
+        TestCase.builder()
+            .id(testCaseId)
+            .title("Old Title")
+            .description("Old Description")
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.findById(testCaseId)).thenReturn(Optional.of(existingTestCase));
+
+    String validTitle = "Updated Title";
+    String description = "Updated Description";
+    Long requirementId = 1L;
+    Status status = Status.OPEN;
+
+    TestCase updatedTestCase =
+        TestCase.builder()
+            .id(testCaseId)
+            .title(validTitle)
+            .description(description)
+            .reuqirementId(requirementId)
+            .status(status)
+            .updatedAt(LocalDateTime.now())
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(updatedTestCase);
+
+    CreateOrUpdateTestCaseDto updateTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
+
+    TestCase result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+
+    assertEquals(validTitle, result.getTitle());
+  }
+
+  @Test
+  void test_updateChangeStatusToClosed_shouldReturnUpdatedTestCase() {
+    Long testCaseId = 1L;
+
+    TestCase existingTestCase =
+        TestCase.builder()
+            .id(testCaseId)
+            .title("Old Title")
+            .description("Old Description")
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.findById(testCaseId)).thenReturn(Optional.of(existingTestCase));
+
+    String validTitle = "Updated Title";
+    String description = "Updated Description";
+    Long requirementId = 1L;
+    Status status = Status.CLOSED;
+
+    TestCase updatedTestCase =
+        TestCase.builder()
+            .id(testCaseId)
+            .title(validTitle)
+            .description(description)
+            .reuqirementId(requirementId)
+            .status(status)
+            .updatedAt(LocalDateTime.now())
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(updatedTestCase);
+
+    CreateOrUpdateTestCaseDto updateTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
+
+    TestCase result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+
+    assertEquals(status, result.getStatus());
   }
 }

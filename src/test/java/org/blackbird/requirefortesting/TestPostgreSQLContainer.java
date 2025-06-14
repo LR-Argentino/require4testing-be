@@ -12,7 +12,7 @@ public class TestPostgreSQLContainer {
           .withReuse(true); // Container zwischen Tests wiederverwenden
 
   static {
-    POSTGRES.start(); // Container beim ersten Zugriff starten
+    POSTGRES.start();
   }
 
   public static void configureProperties(DynamicPropertyRegistry registry) {
