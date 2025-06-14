@@ -2,11 +2,23 @@ package org.blackbird.requirefortesting.shared;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.blackbird.requirefortesting.TestPostgreSQLContainer;
 import org.junit.jupiter.api.Test;
 import org.springframework.modulith.test.ApplicationModuleTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ApplicationModuleTest
+@Transactional
+@Testcontainers
 class SharedModuleTests {
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    TestPostgreSQLContainer.configureProperties(registry); // ← Shared Container
+  }
 
   @Test
   void shouldHaveAllStatusValues() {

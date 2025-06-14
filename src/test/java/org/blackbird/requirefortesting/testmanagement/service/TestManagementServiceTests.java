@@ -2,6 +2,7 @@ package org.blackbird.requirefortesting.testmanagement.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.blackbird.requirefortesting.TestPostgreSQLContainer;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.TestManagementServiceImpl;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
@@ -11,9 +12,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.modulith.test.ApplicationModuleTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ApplicationModuleTest(module = "testmanagement")
+@Testcontainers
 public class TestManagementServiceTests {
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    TestPostgreSQLContainer.configureProperties(registry); // ← Shared Container
+  }
 
   @Mock private TestManagementRepository testManagementRepository;
   @InjectMocks private TestManagementServiceImpl testManagementService;

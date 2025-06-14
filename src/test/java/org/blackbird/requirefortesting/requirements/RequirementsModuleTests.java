@@ -2,20 +2,30 @@ package org.blackbird.requirefortesting.requirements;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.blackbird.requirefortesting.TestPostgreSQLContainer;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
 import org.springframework.modulith.test.ApplicationModuleTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ApplicationModuleTest
 @Transactional
+@Testcontainers
 class RequirementsModuleTests {
 
-  @Autowired private RequirementService requirementService;
+  @InjectMocks private RequirementService requirementService;
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    TestPostgreSQLContainer.configureProperties(registry); // ← Shared Container
+  }
 
   @Test
   void shouldCreateRequirement() {
