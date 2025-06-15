@@ -3,7 +3,7 @@ package org.blackbird.requirefortesting.testmanagement.internal;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
-import org.blackbird.requirefortesting.testmanagement.model.CreateTestCaseDto;
+import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.service.TestManagementService;
 import org.springframework.stereotype.Service;
@@ -15,20 +15,38 @@ public class TestManagementServiceImpl implements TestManagementService {
   private final TestManagementRepository testManagementRepository;
 
   @Override
-  public TestCase createTestCase(CreateTestCaseDto createTestCaseDto) {
+  public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
+    validateTestCaseDto(createTestCaseDto);
 
-    if (createTestCaseDto == null) {
-      throw new IllegalArgumentException("CreateTestCaseDto cannot be null");
-    }
-
-    if (createTestCaseDto.title().isEmpty() || createTestCaseDto.title().trim().isEmpty()) {
-      throw new IllegalArgumentException("Title cannot be empty");
-    }
-
-    return mapToTestCase(createTestCaseDto);
+    return testManagementRepository.save(mapToTestCase(createTestCaseDto));
   }
 
-  private TestCase mapToTestCase(CreateTestCaseDto createTestCaseDto) {
+  @Override
+  public TestCase updateTestCase(Long testCaseId, CreateOrUpdateTestCaseDto updateTestCaseDto) {
+    validateTestCaseDto(updateTestCaseDto);
+
+    TestCase testCaseFromDb =
+        testManagementRepository
+            .findById(testCaseId)
+            .orElseThrow(
+                () -> new IllegalArgumentException("Test case not found with id: " + testCaseId));
+
+    if (testCaseFromDb.getStatus() == Status.CLOSED) {
+      throw new IllegalArgumentException("Cannot update a closed test case");
+    }
+
+    testCaseFromDb.setTitle(updateTestCaseDto.title());
+    testCaseFromDb.setDescription(updateTestCaseDto.description());
+    testCaseFromDb.setReuqirementId(updateTestCaseDto.requirementId());
+
+    if (updateTestCaseDto.status() != null) {
+      testCaseFromDb.setStatus(updateTestCaseDto.status());
+    }
+
+    return testManagementRepository.save(testCaseFromDb);
+  }
+
+  private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
     TestCase testCase =
         TestCase.builder()
             .title(createTestCaseDto.title())
@@ -37,5 +55,14 @@ public class TestManagementServiceImpl implements TestManagementService {
             .reuqirementId(createTestCaseDto.requirementId())
             .build();
     return testCase;
+  }
+
+  private void validateTestCaseDto(CreateOrUpdateTestCaseDto testCaseDto) {
+    if (testCaseDto == null) {
+      throw new IllegalArgumentException("UpdateTestCaseDto cannot be null");
+    }
+    if (testCaseDto.title() == null || testCaseDto.title().trim().isEmpty()) {
+      throw new IllegalArgumentException("Title cannot be empty");
+    }
   }
 }

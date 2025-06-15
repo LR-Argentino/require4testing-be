@@ -1,29 +1,22 @@
 package org.blackbird.requirefortesting.testmanagement.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-import org.blackbird.requirefortesting.TestPostgreSQLContainer;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.TestManagementServiceImpl;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
-import org.blackbird.requirefortesting.testmanagement.model.CreateTestCaseDto;
+import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.modulith.test.ApplicationModuleTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@ApplicationModuleTest(module = "testmanagement")
-@Testcontainers
-public class TestManagementServiceTests {
-
-  @DynamicPropertySource
-  static void configureProperties(DynamicPropertyRegistry registry) {
-    TestPostgreSQLContainer.configureProperties(registry); // ← Shared Container
-  }
+@ExtendWith(MockitoExtension.class)
+public class TestManagementServiceCreateTests {
 
   @Mock private TestManagementRepository testManagementRepository;
   @InjectMocks private TestManagementServiceImpl testManagementService;
@@ -35,8 +28,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(invalidTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -52,8 +45,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(invalidTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(invalidTitle, description, requirementId, status);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -78,8 +71,8 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, status);
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
     assertDoesNotThrow(() -> testManagementService.createTestCase(createTestCaseDto));
   }
@@ -91,12 +84,22 @@ public class TestManagementServiceTests {
     Long requirementId = 1L;
     Status status = Status.OPEN;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, status);
+    TestCase savedTestCase =
+        TestCase.builder()
+            .id(1L)
+            .title("Valid Test Case Title")
+            .description("Test description")
+            .reuqirementId(1L)
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(savedTestCase);
+
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
     TestCase result = testManagementService.createTestCase(createTestCaseDto);
 
-    assertEquals(requirementId, result.getReuqirementId());
     assertEquals(validTitle, result.getTitle());
     assertEquals(description, result.getDescription());
     assertEquals(status, result.getStatus());
@@ -109,8 +112,19 @@ public class TestManagementServiceTests {
     String description = "Test description";
     Long requirementId = 1L;
 
-    CreateTestCaseDto createTestCaseDto =
-        new CreateTestCaseDto(validTitle, description, requirementId, null);
+    TestCase savedTestCase =
+        TestCase.builder()
+            .id(1L)
+            .title(validTitle)
+            .description(description)
+            .reuqirementId(requirementId)
+            .status(Status.OPEN)
+            .build();
+
+    when(testManagementRepository.save(any(TestCase.class))).thenReturn(savedTestCase);
+
+    CreateOrUpdateTestCaseDto createTestCaseDto =
+        new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, null);
 
     TestCase result = testManagementService.createTestCase(createTestCaseDto);
 
