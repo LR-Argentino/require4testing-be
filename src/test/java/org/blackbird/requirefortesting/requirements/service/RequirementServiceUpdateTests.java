@@ -19,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class RequirementServiceUpdateTests {
+class RequirementServiceUpdateTests {
 
   @Mock private RequirementRepository requirementRepository;
   @InjectMocks private RequirementServiceImpl requirementService;

@@ -2,17 +2,17 @@ package org.blackbird.requirefortesting.testmanagement.internal;
 
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
-import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
+import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
-import org.blackbird.requirefortesting.testmanagement.service.TestManagementService;
+import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class TestManagementServiceImpl implements TestManagementService {
+public class TestCaseServiceImpl implements TestCaseService {
 
-  private final TestManagementRepository testManagementRepository;
+  private final TestCaseRepository testManagementRepository;
 
   @Override
   public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
@@ -61,7 +61,7 @@ public class TestManagementServiceImpl implements TestManagementService {
     if (testCaseDto == null) {
       throw new IllegalArgumentException("UpdateTestCaseDto cannot be null");
     }
-    if (testCaseDto.title() == null || testCaseDto.title().trim().isEmpty()) {
+    if (testCaseDto.title() == null || testCaseDto.title().isBlank()) {
       throw new IllegalArgumentException("Title cannot be empty");
     }
   }

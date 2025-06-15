@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.blackbird.requirefortesting.shared.Status;
-import org.blackbird.requirefortesting.testmanagement.internal.TestManagementServiceImpl;
-import org.blackbird.requirefortesting.testmanagement.internal.repository.TestManagementRepository;
+import org.blackbird.requirefortesting.testmanagement.internal.TestCaseServiceImpl;
+import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.junit.jupiter.api.Test;
@@ -18,10 +18,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class TestManagementServiceUpdateTests {
+class TestManagementServiceUpdateTests {
 
-  @Mock private TestManagementRepository testManagementRepository;
-  @InjectMocks private TestManagementServiceImpl testManagementService;
+  @Mock private TestCaseRepository testManagementRepository;
+  @InjectMocks private TestCaseServiceImpl testManagementService;
 
   @Test
   void test_updateTestCaseWithNull_shouldThrowException() {

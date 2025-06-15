@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 @WebMvcTest
 @ContextConfiguration(classes = SecurityConfig.class)
-public class SecurityConfigTests {
+class SecurityConfigTests {
   @Autowired private UserDetailsService userDetailsService;
 
   @Test
