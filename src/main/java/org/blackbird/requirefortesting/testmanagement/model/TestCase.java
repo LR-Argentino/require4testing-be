@@ -2,6 +2,8 @@ package org.blackbird.requirefortesting.testmanagement.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,6 +46,9 @@ public class TestCase {
 
   @Column(name = "creation_date", nullable = false)
   private LocalDateTime creationDate;
+
+  @ManyToMany(mappedBy = "testCases", fetch = FetchType.LAZY)
+  private Set<TestRun> testRuns = new HashSet<>();
 
   @PrePersist
   protected void onCreate() {

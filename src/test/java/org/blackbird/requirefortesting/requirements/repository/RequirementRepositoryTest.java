@@ -16,7 +16,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @Testcontainers
-public class RequirementRepositoryTest {
+class RequirementRepositoryTest {
 
   @Container
   static PostgreSQLContainer<?> postgres =
