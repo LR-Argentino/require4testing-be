@@ -1,8 +1,8 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
+import org.blackbird.requirefortesting.testmanagement.internal.validation.TestRunValidator;
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
@@ -13,33 +13,49 @@ import org.springframework.stereotype.Service;
 public class TestRunServiceImpl implements TestRunService {
 
   private final TestRunRepository testRunRepository;
-  private static final Integer BUFFER_FOR_CLOCK_SKEW = 30;
 
   @Override
   public TestRun create(CreateTestRunDto testRunDto) {
-    if (testRunDto == null) {
-      throw new IllegalArgumentException("Test run DTO cannot be null");
-    }
-
-    if (testRunDto.title() == null || testRunDto.title().isBlank()) {
-      throw new IllegalArgumentException("Test run title cannot be null");
-    }
-
-    if (testRunDto.startDate() == null || testRunDto.endDate() == null) {
-      throw new IllegalArgumentException("Test run start and end dates cannot be null");
-    }
-
-    LocalDateTime now = LocalDateTime.now();
-
-    Boolean isStartDateInPast =
-        testRunDto.startDate().isBefore(now.minusSeconds(BUFFER_FOR_CLOCK_SKEW));
-    Boolean isStartDateAfterEndDate = testRunDto.startDate().isAfter(testRunDto.endDate());
-
-    if (isStartDateInPast || isStartDateAfterEndDate) {
-      throw new IllegalArgumentException("Test run start date cannot be in the past");
-    }
+    TestRunValidator.validateNotNull(testRunDto, "Test run DTO cannot be null");
+    TestRunValidator.validateForCreation(testRunDto);
 
     return testRunRepository.save(mapToTestRun(testRunDto));
+  }
+
+  @Override
+  public TestRun update(Long testRunId, CreateTestRunDto testRunDto) {
+    TestRunValidator.validateNotNull(testRunId, "Test run ID cannot be null");
+    TestRunValidator.validateNotNull(testRunDto, "Test run DTO cannot be null");
+
+    TestRun existingTestRun = findTestRunById(testRunId);
+    updateTestRunFields(existingTestRun, testRunDto);
+
+    return testRunRepository.save(existingTestRun);
+  }
+
+  private TestRun findTestRunById(Long testRunId) {
+    return testRunRepository
+        .findById(testRunId)
+        .orElseThrow(
+            () ->
+                new IllegalArgumentException("Test run with ID " + testRunId + " does not exist"));
+  }
+
+  private void updateTestRunFields(TestRun existingTestRun, CreateTestRunDto testRunDto) {
+    if (testRunDto.title() != null) {
+      TestRunValidator.validateTitle(testRunDto.title());
+      existingTestRun.setTitle(testRunDto.title());
+    }
+
+    if (testRunDto.startDate() != null) {
+      TestRunValidator.validateStartDateForUpdate(existingTestRun, testRunDto);
+      existingTestRun.setStartTime(testRunDto.startDate());
+    }
+
+    if (testRunDto.endDate() != null) {
+      TestRunValidator.validateEndDate(existingTestRun, testRunDto);
+      existingTestRun.setEndTime(testRunDto.endDate());
+    }
   }
 
   private TestRun mapToTestRun(CreateTestRunDto testRunDto) {
