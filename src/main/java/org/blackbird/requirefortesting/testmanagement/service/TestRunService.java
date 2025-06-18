@@ -7,4 +7,6 @@ public interface TestRunService {
   TestRun create(CreateTestRunDto testRunDto);
 
   TestRun update(Long testRunId, CreateTestRunDto testRunDto);
+
+  void delete(Long testRunId);
 }
