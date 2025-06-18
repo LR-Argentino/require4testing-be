@@ -46,6 +46,9 @@ public class TestCaseServiceImpl implements TestCaseService {
     return testManagementRepository.save(testCaseFromDb);
   }
 
+  @Override
+  public void addTestCaseToTestRun(Long testRunId, Long testCaseId) {}
+
   private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
     TestCase testCase =
         TestCase.builder()
@@ -57,6 +60,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     return testCase;
   }
 
+  // TODO: Use TestRunValidator for validation
   private void validateTestCaseDto(CreateOrUpdateTestCaseDto testCaseDto) {
     if (testCaseDto == null) {
       throw new IllegalArgumentException("UpdateTestCaseDto cannot be null");

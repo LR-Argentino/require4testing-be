@@ -18,7 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class TestManagementServiceUpdateTests {
+class TestCaseServiceUpdateTests {
 
   @Mock private TestCaseRepository testManagementRepository;
   @InjectMocks private TestCaseServiceImpl testManagementService;
