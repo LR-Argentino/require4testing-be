@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.blackbird.requirefortesting.testmanagement.internal.TestRunServiceImpl;
@@ -36,7 +37,7 @@ class TestRunServiceUpdateTests {
     when(testRunRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
     assertThrows(
-        IllegalArgumentException.class,
+        EntityNotFoundException.class,
         () -> testRunService.update(nonExistingId, createTestRunDto));
   }
 
