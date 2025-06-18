@@ -43,5 +43,6 @@ public class TestRun {
       name = "test_run_test_case",
       joinColumns = @JoinColumn(name = "test_run_id"),
       inverseJoinColumns = @JoinColumn(name = "test_case_id"))
+  @Builder.Default
   private Set<TestCase> testCases = new HashSet<>();
 }
