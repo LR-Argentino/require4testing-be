@@ -77,6 +77,7 @@ public class TestCaseServiceImpl implements TestCaseService {
             .description(createTestCaseDto.description())
             .status(createTestCaseDto.status() != null ? createTestCaseDto.status() : Status.OPEN)
             .reuqirementId(createTestCaseDto.requirementId())
+            .createdBy(1L) // TODO: Replace with actual user ID
             .build();
     return testCase;
   }
@@ -87,6 +88,10 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
     if (testCaseDto.title() == null || testCaseDto.title().isBlank()) {
       throw new IllegalArgumentException("Title cannot be empty");
+    }
+
+    if (testCaseDto.requirementId() <= 0) {
+      throw new IllegalArgumentException("Requirement ID must be greater than 0");
     }
   }
 }

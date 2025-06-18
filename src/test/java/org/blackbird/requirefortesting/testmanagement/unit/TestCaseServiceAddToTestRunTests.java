@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.testmanagement.service;
+package org.blackbird.requirefortesting.testmanagement.unit;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
