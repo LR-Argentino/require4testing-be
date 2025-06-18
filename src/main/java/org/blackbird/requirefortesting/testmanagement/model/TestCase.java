@@ -48,6 +48,7 @@ public class TestCase {
   private LocalDateTime creationDate;
 
   @ManyToMany(mappedBy = "testCases", fetch = FetchType.LAZY)
+  @Builder.Default
   private Set<TestRun> testRuns = new HashSet<>();
 
   @PrePersist
