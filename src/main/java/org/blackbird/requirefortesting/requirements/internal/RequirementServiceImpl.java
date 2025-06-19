@@ -1,10 +1,10 @@
 package org.blackbird.requirefortesting.requirements.internal;
 
 import lombok.RequiredArgsConstructor;
+import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
-import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.springframework.stereotype.Service;
@@ -88,7 +88,7 @@ public class RequirementServiceImpl implements RequirementService {
 
   private void validateRequirementTitle(String title) {
     String specialCharRegex = ".*[^a-zA-Z0-9 ].*";
-    if (title.isBlank() || title.matches(specialCharRegex)) {
+    if (title == null || title.isBlank() || title.matches(specialCharRegex)) {
       throw new IllegalArgumentException(
           "Requirement title cannot be empty or contain special characters");
     }

@@ -1,24 +1,22 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
-import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
-import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class TestCaseServiceImpl implements TestCaseService {
 
   private final TestCaseRepository testCaseRepository;
-  private final TestRunRepository testRunRepository;
 
   @Override
+  @Transactional
   public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
     validateTestCaseDto(createTestCaseDto);
 
@@ -26,6 +24,7 @@ public class TestCaseServiceImpl implements TestCaseService {
   }
 
   @Override
+  @Transactional
   public TestCase updateTestCase(Long testCaseId, CreateOrUpdateTestCaseDto updateTestCaseDto) {
     validateTestCaseDto(updateTestCaseDto);
 
@@ -41,7 +40,7 @@ public class TestCaseServiceImpl implements TestCaseService {
 
     testCaseFromDb.setTitle(updateTestCaseDto.title());
     testCaseFromDb.setDescription(updateTestCaseDto.description());
-    testCaseFromDb.setReuqirementId(updateTestCaseDto.requirementId());
+    testCaseFromDb.setRequirementId(updateTestCaseDto.requirementId());
 
     if (updateTestCaseDto.status() != null) {
       testCaseFromDb.setStatus(updateTestCaseDto.status());
@@ -50,33 +49,13 @@ public class TestCaseServiceImpl implements TestCaseService {
     return testCaseRepository.save(testCaseFromDb);
   }
 
-  // TODO: Move to TestRunService
-  @Override
-  public void addTestCaseToTestRun(Long testRunId, Long testCaseId) {
-    if (testCaseId == null || testRunId == null) {
-      throw new IllegalArgumentException("Test run ID and test case ID cannot be null");
-    }
-    TestRun testRun =
-        testRunRepository.findById(testRunId).orElseThrow(EntityNotFoundException::new);
-    TestCase testCase =
-        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
-
-    if (testRun.getTestCases() != null
-        && !testRun.getTestCases().isEmpty()
-        && testRun.getTestCases().contains(testCase)) {
-      throw new IllegalStateException("Test case already exists in the test run");
-    }
-
-    testRun.getTestCases().add(testCase);
-  }
-
   private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
     TestCase testCase =
         TestCase.builder()
             .title(createTestCaseDto.title())
             .description(createTestCaseDto.description())
             .status(createTestCaseDto.status() != null ? createTestCaseDto.status() : Status.OPEN)
-            .reuqirementId(createTestCaseDto.requirementId())
+            .requirementId(createTestCaseDto.requirementId())
             .createdBy(1L) // TODO: Replace with actual user ID
             .build();
     return testCase;

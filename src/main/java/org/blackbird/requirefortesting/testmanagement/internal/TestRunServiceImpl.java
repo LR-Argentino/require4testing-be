@@ -2,32 +2,38 @@ package org.blackbird.requirefortesting.testmanagement.internal;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.validation.TestRunValidator;
 import org.blackbird.requirefortesting.testmanagement.internal.validation.ValidationMessage;
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
+import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class TestRunServiceImpl implements TestRunService {
 
   private final TestRunRepository testRunRepository;
+  private final TestCaseRepository testCaseRepository;
 
   @Override
+  @Transactional
   public TestRun create(CreateTestRunDto testRunDto) {
-    TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.name());
+    TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.getMessage());
     TestRunValidator.validateForCreation(testRunDto);
 
     return testRunRepository.save(mapToTestRun(testRunDto));
   }
 
   @Override
+  @Transactional
   public TestRun update(Long testRunId, CreateTestRunDto testRunDto) {
-    TestRunValidator.validateNotNull(testRunId, ValidationMessage.NULL_TEST_ID.name());
-    TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.name());
+    TestRunValidator.validateNotNull(testRunId, ValidationMessage.NULL_TEST_ID.getMessage());
+    TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.getMessage());
 
     TestRun existingTestRun = findTestRunById(testRunId);
     updateTestRunFields(existingTestRun, testRunDto);
@@ -36,11 +42,32 @@ public class TestRunServiceImpl implements TestRunService {
   }
 
   @Override
+  @Transactional
   public void delete(Long testRunId) {
-    TestRunValidator.validateNotNull(testRunId, ValidationMessage.NULL_TEST_ID.name());
+    TestRunValidator.validateNotNull(testRunId, ValidationMessage.NULL_TEST_ID.getMessage());
     TestRun testRun = findTestRunById(testRunId);
 
     testRunRepository.delete(testRun);
+  }
+
+  @Override
+  @Transactional
+  public void addTestCase(Long testRunId, Long testCaseId) {
+    if (testCaseId == null || testRunId == null) {
+      throw new IllegalArgumentException("Test run ID and test case ID cannot be null");
+    }
+    TestRun testRun =
+        testRunRepository.findById(testRunId).orElseThrow(EntityNotFoundException::new);
+    TestCase testCase =
+        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
+
+    if (testRun.getTestCases() != null
+        && !testRun.getTestCases().isEmpty()
+        && testRun.getTestCases().contains(testCase)) {
+      throw new IllegalStateException("Test case already exists in the test run");
+    }
+
+    testRun.getTestCases().add(testCase);
   }
 
   private TestRun findTestRunById(Long testRunId) {
@@ -67,8 +94,10 @@ public class TestRunServiceImpl implements TestRunService {
   private TestRun mapToTestRun(CreateTestRunDto testRunDto) {
     return TestRun.builder()
         .title(testRunDto.title())
+        .description(testRunDto.description())
         .startTime(testRunDto.startDate())
         .endTime(testRunDto.endDate())
+        .createdBy(1L) // TODO: Replace with actual user ID from security context
         .build();
   }
 }

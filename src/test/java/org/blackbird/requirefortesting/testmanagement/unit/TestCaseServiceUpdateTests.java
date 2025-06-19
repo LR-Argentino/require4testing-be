@@ -110,7 +110,7 @@ class TestCaseServiceUpdateTests {
             .id(testCaseId)
             .title(validTitle)
             .description(description)
-            .reuqirementId(requirementId)
+            .requirementId(requirementId)
             .status(status)
             .updatedAt(LocalDateTime.now())
             .build();
@@ -149,7 +149,7 @@ class TestCaseServiceUpdateTests {
             .id(testCaseId)
             .title(validTitle)
             .description(description)
-            .reuqirementId(requirementId)
+            .requirementId(requirementId)
             .status(status)
             .updatedAt(LocalDateTime.now())
             .build();

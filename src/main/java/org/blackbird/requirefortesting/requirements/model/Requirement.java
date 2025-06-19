@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import lombok.*;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name = "requirement")
 @Data
@@ -12,14 +15,16 @@ import org.blackbird.requirefortesting.shared.Status;
 @NoArgsConstructor
 @Builder
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Requirement {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 255)
   private String title;
 
+  @Column(nullable = true, length = 500)
   private String description;
 
   @Column(nullable = false)
@@ -29,18 +34,7 @@ public class Requirement {
   @Builder.Default
   private Status status = Status.OPEN;
 
-  private LocalDateTime updatedAt;
+  @LastModifiedDate private LocalDateTime updatedAt;
 
-  private LocalDateTime createdAt;
-
-  @PrePersist
-  protected void onCreate() {
-    updatedAt = LocalDateTime.now();
-    createdAt = LocalDateTime.now();
-  }
-
-  @PreUpdate
-  protected void onUpdate() {
-    updatedAt = LocalDateTime.now();
-  }
+  @CreatedDate private LocalDateTime createdAt;
 }

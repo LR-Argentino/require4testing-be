@@ -41,6 +41,9 @@ public class TestRunValidator {
     if (testRunDto.endDate() != null && testRunDto.startDate().isAfter(testRunDto.endDate())) {
       throw new IllegalArgumentException("Test run start date cannot be after end date");
     }
+    if (testRunDto.startDate() == testRunDto.endDate()) {
+      throw new IllegalArgumentException("Test run start date cannot be the same as end date");
+    }
   }
 
   public static void validateEndDate(TestRun existingTestRun, CreateTestRunDto testRunDto) {
