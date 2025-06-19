@@ -9,4 +9,6 @@ public interface TestRunService {
   TestRun update(Long testRunId, CreateTestRunDto testRunDto);
 
   void delete(Long testRunId);
+
+  void addTestCase(Long testRunId, Long testCaseId);
 }

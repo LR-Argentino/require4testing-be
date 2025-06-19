@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.testmanagement.service;
+package org.blackbird.requirefortesting.testmanagement.unit;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -89,7 +89,7 @@ class TestCaseServiceCreateTests {
             .id(1L)
             .title("Valid Test Case Title")
             .description("Test description")
-            .reuqirementId(1L)
+            .requirementId(1L)
             .status(Status.OPEN)
             .build();
 
@@ -117,7 +117,7 @@ class TestCaseServiceCreateTests {
             .id(1L)
             .title(validTitle)
             .description(description)
-            .reuqirementId(requirementId)
+            .requirementId(requirementId)
             .status(Status.OPEN)
             .build();
 
@@ -128,7 +128,7 @@ class TestCaseServiceCreateTests {
 
     TestCase result = testManagementService.createTestCase(createTestCaseDto);
 
-    assertEquals(requirementId, result.getReuqirementId());
+    assertEquals(requirementId, result.getRequirementId());
     assertEquals(validTitle, result.getTitle());
     assertEquals(description, result.getDescription());
     assertEquals(Status.OPEN, result.getStatus());

@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.testmanagement.service;
+package org.blackbird.requirefortesting.testmanagement.unit;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import java.util.Set;
-import org.blackbird.requirefortesting.testmanagement.internal.TestCaseServiceImpl;
+import org.blackbird.requirefortesting.testmanagement.internal.TestRunServiceImpl;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
@@ -19,16 +19,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class TestCaseServiceAddToTestRunTests {
+public class TestRunServiceAddToTestCaseTests {
 
   @Mock private TestCaseRepository testCaseRepository;
   @Mock private TestRunRepository testRunRepository;
-  @InjectMocks private TestCaseServiceImpl testCaseServiceImpl;
+  @InjectMocks private TestRunServiceImpl testRunService;
 
   @Test
   void test_addTestCaseToTestRunWithNullId_shouldThrowException() {
-    assertThrows(
-        IllegalArgumentException.class, () -> testCaseServiceImpl.addTestCaseToTestRun(null, null));
+    assertThrows(IllegalArgumentException.class, () -> testRunService.addTestCase(null, null));
   }
 
   @Test
@@ -39,8 +38,7 @@ public class TestCaseServiceAddToTestRunTests {
     when(testRunRepository.findById(testRunId)).thenReturn(Optional.empty());
 
     assertThrows(
-        EntityNotFoundException.class,
-        () -> testCaseServiceImpl.addTestCaseToTestRun(testRunId, testCaseId));
+        EntityNotFoundException.class, () -> testRunService.addTestCase(testRunId, testCaseId));
   }
 
   @Test
@@ -52,8 +50,7 @@ public class TestCaseServiceAddToTestRunTests {
     when(testCaseRepository.findById(testCaseId)).thenReturn(Optional.empty());
 
     assertThrows(
-        EntityNotFoundException.class,
-        () -> testCaseServiceImpl.addTestCaseToTestRun(testRunId, testCaseId));
+        EntityNotFoundException.class, () -> testRunService.addTestCase(testRunId, testCaseId));
   }
 
   @Test
@@ -72,8 +69,7 @@ public class TestCaseServiceAddToTestRunTests {
     when(testCaseRepository.findById(testCaseId)).thenReturn(Optional.of(testCase));
 
     assertThrows(
-        IllegalStateException.class,
-        () -> testCaseServiceImpl.addTestCaseToTestRun(testRunId, testCaseId));
+        IllegalStateException.class, () -> testRunService.addTestCase(testRunId, testCaseId));
   }
 
   @Test
@@ -90,6 +86,6 @@ public class TestCaseServiceAddToTestRunTests {
     when(testRunRepository.findById(testRunId)).thenReturn(Optional.of(testRun));
     when(testCaseRepository.findById(testCaseId)).thenReturn(Optional.of(testCase));
 
-    assertDoesNotThrow(() -> testCaseServiceImpl.addTestCaseToTestRun(testRunId, testCaseId));
+    assertDoesNotThrow(() -> testRunService.addTestCase(testRunId, testCaseId));
   }
 }

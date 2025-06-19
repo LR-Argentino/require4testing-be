@@ -15,8 +15,7 @@ public class RequirementController {
 
   private final RequirementService requirementService;
 
-  // TODO: Fix the security annotation to allow only users with the 'REQUIREMENTS_ENGINEER' role
-  @PreAuthorize("hasAnyRole('REQUIREMENTS_ENGINEER')")
+  @PreAuthorize("hasRole('REQUIREMENTS_ENGINEER')")
   @PostMapping
   public ResponseEntity<Requirement> createRequirement(
       @RequestBody CreateOrUpdateRequirementDto requirement) {
