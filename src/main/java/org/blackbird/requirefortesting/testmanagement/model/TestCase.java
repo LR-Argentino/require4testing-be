@@ -28,7 +28,7 @@ public class TestCase {
   private String description;
 
   @Column(name = "requirement_id", nullable = false)
-  private Long reuqirementId;
+  private Long requirementId;
 
   @Enumerated(EnumType.STRING)
   @Column(nullable = false)
