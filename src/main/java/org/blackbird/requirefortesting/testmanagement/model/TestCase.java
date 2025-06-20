@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Table(name = "test_case")
 @Entity
@@ -16,6 +19,7 @@ import org.blackbird.requirefortesting.shared.Status;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class TestCase {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,23 +46,14 @@ public class TestCase {
   private Long createdBy;
 
   @Column(name = "updated_at")
+  @LastModifiedDate
   private LocalDateTime updatedAt;
 
   @Column(name = "creation_date", nullable = false)
+  @CreatedDate
   private LocalDateTime creationDate;
 
   @ManyToMany(mappedBy = "testCases", fetch = FetchType.LAZY)
   @Builder.Default
   private Set<TestRun> testRuns = new HashSet<>();
-
-  @PrePersist
-  protected void onCreate() {
-    updatedAt = LocalDateTime.now();
-    creationDate = LocalDateTime.now();
-  }
-
-  @PreUpdate
-  protected void onUpdate() {
-    updatedAt = LocalDateTime.now();
-  }
 }

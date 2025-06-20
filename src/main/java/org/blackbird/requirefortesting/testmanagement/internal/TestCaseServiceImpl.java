@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
@@ -47,6 +48,19 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
 
     return testCaseRepository.save(testCaseFromDb);
+  }
+
+  @Override
+  @Transactional
+  public void deleteTestCase(Long testCaseId) {
+    if (testCaseId == null || testCaseId <= 0) {
+      throw new IllegalArgumentException("Test case ID cannot be null or negative");
+    }
+
+    TestCase testCaseFromDb =
+        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
+
+    testCaseRepository.delete(testCaseFromDb);
   }
 
   private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
