@@ -30,7 +30,8 @@ class RequirementsModuleTests {
   @Test
   void shouldCreateRequirement() {
     CreateOrUpdateRequirementDto createDto =
-        new CreateOrUpdateRequirementDto("Test Requirement", "Test Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto(
+            "Test Requirement", "Test Description", Priority.HIGH, null);
 
     Requirement created = requirementService.createRequirement(createDto);
 
@@ -43,11 +44,13 @@ class RequirementsModuleTests {
   @Test
   void shouldUpdateRequirement() {
     CreateOrUpdateRequirementDto createDto =
-        new CreateOrUpdateRequirementDto("Original Title", "Original Description", Priority.LOW);
+        new CreateOrUpdateRequirementDto(
+            "Original Title", "Original Description", Priority.LOW, null);
     Requirement created = requirementService.createRequirement(createDto);
 
     CreateOrUpdateRequirementDto updateDto =
-        new CreateOrUpdateRequirementDto("Updated Title", "Updated Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto(
+            "Updated Title", "Updated Description", Priority.HIGH, null);
 
     Requirement updated = requirementService.updateRequirement(created.getId(), updateDto);
 
@@ -59,7 +62,7 @@ class RequirementsModuleTests {
   @Test
   void shouldDeleteRequirement() {
     CreateOrUpdateRequirementDto createDto =
-        new CreateOrUpdateRequirementDto("To Delete", "Will be deleted", Priority.MEDIUM);
+        new CreateOrUpdateRequirementDto("To Delete", "Will be deleted", Priority.MEDIUM, null);
     Requirement created = requirementService.createRequirement(createDto);
 
     requirementService.deleteRequirement(created.getId());

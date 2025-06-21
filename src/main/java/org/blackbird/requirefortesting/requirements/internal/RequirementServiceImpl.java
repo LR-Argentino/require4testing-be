@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.requirements.internal;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
@@ -41,18 +42,7 @@ public class RequirementServiceImpl implements RequirementService {
 
     Requirement requirement = getRequirement(id);
 
-    if (requirement.getStatus() != Status.OPEN) {
-      throw new IllegalStateException("Requirement cannot be updated because it is not open");
-    }
-
-    validateRequirementTitle(updateRequirement.title());
-
-    requirement.setTitle(updateRequirement.title());
-    requirement.setDescription(updateRequirement.description());
-
-    if (updateRequirement.priority() != null) {
-      requirement.setPriority(updateRequirement.priority());
-    }
+    updateRequirement(requirement, updateRequirement);
 
     return requirement;
   }
@@ -83,11 +73,39 @@ public class RequirementServiceImpl implements RequirementService {
     return requirementRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
+  @Override
+  public List<Requirement> getRequirements() {
+    return requirementRepository.findAll();
+  }
+
   private void validateRequirementTitle(String title) {
     String specialCharRegex = ".*[^a-zA-Z0-9 ].*";
     if (title == null || title.isBlank() || title.matches(specialCharRegex)) {
       throw new IllegalArgumentException(
           "Requirement title cannot be empty or contain special characters");
+    }
+  }
+
+  private void updateRequirement(
+      Requirement existingRequirement, CreateOrUpdateRequirementDto updateRequirementDto) {
+
+    if (updateRequirementDto.title() != null) {
+      validateRequirementTitle(updateRequirementDto.title());
+      existingRequirement.setTitle(updateRequirementDto.title());
+    }
+
+    if (updateRequirementDto.description() != null) {
+      existingRequirement.setDescription(updateRequirementDto.description());
+    }
+
+    if (updateRequirementDto.priority() != null) {
+      existingRequirement.setPriority(updateRequirementDto.priority());
+    }
+
+    if (updateRequirementDto.status() != null) {
+      if (existingRequirement.getStatus() != Status.OPEN) {
+        throw new IllegalStateException("Requirement cannot be updated because it is not open");
+      }
     }
   }
 }

@@ -47,14 +47,19 @@ public class RequirementServiceIntegrationTests {
     String description = "This is a sample requirement";
 
     CreateOrUpdateRequirementDto requirement =
-        new CreateOrUpdateRequirementDto(title, description, Priority.HIGH);
+        new CreateOrUpdateRequirementDto(title, description, Priority.HIGH, null);
 
     Requirement createdRequirement = requirementServiceImpl.createRequirement(requirement);
 
     assertNotNull(createdRequirement.getId(), "Saved requirement should have an ID");
-    assertEquals("Sample Requirement", createdRequirement.getTitle(), "Requirement title should match");
-    assertEquals(Priority.HIGH, createdRequirement.getPriority(), "Requirement priority should match");
-    assertEquals(Status.OPEN, createdRequirement.getStatus(), "Requirement status should be OPEN by default");
+    assertEquals(
+        "Sample Requirement", createdRequirement.getTitle(), "Requirement title should match");
+    assertEquals(
+        Priority.HIGH, createdRequirement.getPriority(), "Requirement priority should match");
+    assertEquals(
+        Status.OPEN,
+        createdRequirement.getStatus(),
+        "Requirement status should be OPEN by default");
   }
 
   @Test
@@ -64,11 +69,14 @@ public class RequirementServiceIntegrationTests {
         requirementRepository
             .findById(requirement1.getId())
             .orElseThrow(
-                () -> new AssertionError("Requirement with ID " + requirement1.getId() + " not found"));
+                () ->
+                    new AssertionError(
+                        "Requirement with ID " + requirement1.getId() + " not found"));
 
     assertEquals(requirement1.getId(), requirement.getId(), "Requirement ID should match");
     assertEquals("Requirement 1", requirement.getTitle(), "Requirement title should match");
-    assertEquals("Description 1", requirement.getDescription(), "Requirement description should match");
+    assertEquals(
+        "Description 1", requirement.getDescription(), "Requirement description should match");
     assertEquals(Priority.HIGH, requirement.getPriority(), "Requirement priority should match");
   }
 
@@ -78,12 +86,14 @@ public class RequirementServiceIntegrationTests {
     String updatedTitle = "Updated Requirement";
     String updatedDescription = "Updated description";
     CreateOrUpdateRequirementDto updateDto =
-        new CreateOrUpdateRequirementDto(updatedTitle, updatedDescription, Priority.LOW);
+        new CreateOrUpdateRequirementDto(updatedTitle, updatedDescription, Priority.LOW, null);
 
-    Requirement updatedRequirement = requirementServiceImpl.updateRequirement(requirement1.getId(), updateDto);
+    Requirement updatedRequirement =
+        requirementServiceImpl.updateRequirement(requirement1.getId(), updateDto);
 
     assertEquals(updatedTitle, updatedRequirement.getTitle(), "Title should be updated");
-    assertEquals(updatedDescription, updatedRequirement.getDescription(), "Description should be updated");
+    assertEquals(
+        updatedDescription, updatedRequirement.getDescription(), "Description should be updated");
     assertEquals(Priority.LOW, updatedRequirement.getPriority(), "Priority should be updated");
   }
 
@@ -123,7 +133,7 @@ public class RequirementServiceIntegrationTests {
   @Transactional
   void test_createRequirement_withNullTitle_shouldThrowException() {
     CreateOrUpdateRequirementDto invalidRequirement =
-        new CreateOrUpdateRequirementDto(null, "Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto(null, "Description", Priority.HIGH, null);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -137,7 +147,7 @@ public class RequirementServiceIntegrationTests {
   @Transactional
   void test_createRequirement_withEmptyTitle_shouldThrowException() {
     CreateOrUpdateRequirementDto invalidRequirement =
-        new CreateOrUpdateRequirementDto("", "Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto("", "Description", Priority.HIGH, null);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -151,7 +161,7 @@ public class RequirementServiceIntegrationTests {
   @Transactional
   void test_createRequirement_withWhitespaceOnlyTitle_shouldThrowException() {
     CreateOrUpdateRequirementDto invalidRequirement =
-        new CreateOrUpdateRequirementDto("   ", "Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto("   ", "Description", Priority.HIGH, null);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -165,7 +175,7 @@ public class RequirementServiceIntegrationTests {
   @Transactional
   void test_createRequirement_withSpecialCharacters_shouldThrowException() {
     CreateOrUpdateRequirementDto invalidRequirement =
-        new CreateOrUpdateRequirementDto("Title@#$", "Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto("Title@#$", "Description", Priority.HIGH, null);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -191,7 +201,7 @@ public class RequirementServiceIntegrationTests {
   void test_updateRequirement_withNonExistentId_shouldThrowException() {
     Long nonExistentId = 99999L;
     CreateOrUpdateRequirementDto updateDto =
-        new CreateOrUpdateRequirementDto("Valid Title", "Valid Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto("Valid Title", "Valid Description", Priority.HIGH, null);
 
     assertThrows(
         IllegalArgumentException.class,
@@ -227,7 +237,7 @@ public class RequirementServiceIntegrationTests {
 
   private Requirement createRequirement(String title, String description, Priority priority) {
     CreateOrUpdateRequirementDto requirementDto =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, null);
     return requirementServiceImpl.createRequirement(requirementDto);
   }
 }

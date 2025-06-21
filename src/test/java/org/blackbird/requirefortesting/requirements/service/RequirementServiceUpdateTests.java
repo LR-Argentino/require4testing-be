@@ -32,7 +32,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -58,7 +58,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     when(requirementRepository.findById(id)).thenReturn(Optional.empty());
 
@@ -77,7 +77,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -104,7 +104,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, null);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -132,7 +132,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, null);
 
     Requirement existingRequirement =
         Requirement.builder()

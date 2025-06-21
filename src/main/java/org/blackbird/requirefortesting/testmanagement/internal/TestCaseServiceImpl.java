@@ -30,10 +30,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     validateTestCaseDto(updateTestCaseDto);
 
     TestCase testCaseFromDb =
-        testCaseRepository
-            .findById(testCaseId)
-            .orElseThrow(
-                () -> new IllegalArgumentException("Test case not found with id: " + testCaseId));
+        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
 
     if (testCaseFromDb.getStatus() == Status.CLOSED) {
       throw new IllegalArgumentException("Cannot update a closed test case");
