@@ -1,4 +1,4 @@
-package org.blackbird.requirefortesting.requirements.api;
+package org.blackbird.requirefortesting.shared;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,6 @@ import jakarta.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.blackbird.requirefortesting.shared.ErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @RequiredArgsConstructor
 @Slf4j
-public class RequirementExceptionHandler {
+public class GlobalExceptionHandler {
   @ExceptionHandler(IllegalArgumentException.class)
   ResponseEntity<ErrorResponse> handleIllegalArgumentException(
       IllegalArgumentException ex, HttpServletRequest request) {
