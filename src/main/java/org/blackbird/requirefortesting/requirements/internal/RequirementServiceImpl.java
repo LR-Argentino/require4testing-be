@@ -59,18 +59,6 @@ public class RequirementServiceImpl implements RequirementService {
     requirementRepository.delete(requirement);
   }
 
-  private Requirement mapToRequirement(CreateOrUpdateRequirementDto createRequirement) {
-    Requirement requirement =
-        Requirement.builder()
-            .title(createRequirement.title())
-            .description(createRequirement.description())
-            .priority(
-                createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW)
-            .build();
-
-    return requirement;
-  }
-
   @Override
   @Transactional(readOnly = true)
   public Requirement getRequirement(Long id) {
@@ -78,6 +66,7 @@ public class RequirementServiceImpl implements RequirementService {
   }
 
   @Override
+  @Transactional(readOnly = true)
   public List<Requirement> getRequirements() {
     return requirementRepository.findAll();
   }
@@ -88,6 +77,18 @@ public class RequirementServiceImpl implements RequirementService {
       throw new IllegalArgumentException(
           "Requirement title cannot be empty or contain special characters");
     }
+  }
+
+  private Requirement mapToRequirement(CreateOrUpdateRequirementDto createRequirement) {
+    Requirement requirement =
+        Requirement.builder()
+            .title(createRequirement.title())
+            .description(createRequirement.description())
+            .priority(
+                createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW)
+            .build();
+
+    return requirement;
   }
 
   private void updateRequirement(

@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
@@ -29,20 +30,13 @@ public class TestCaseServiceImpl implements TestCaseService {
   public TestCase updateTestCase(Long testCaseId, CreateOrUpdateTestCaseDto updateTestCaseDto) {
     validateTestCaseDto(updateTestCaseDto);
 
-    TestCase testCaseFromDb =
-        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
+    TestCase testCaseFromDb = getTestCase(testCaseId);
 
     if (testCaseFromDb.getStatus() == Status.CLOSED) {
       throw new IllegalArgumentException("Cannot update a closed test case");
     }
 
-    testCaseFromDb.setTitle(updateTestCaseDto.title());
-    testCaseFromDb.setDescription(updateTestCaseDto.description());
-    testCaseFromDb.setRequirementId(updateTestCaseDto.requirementId());
-
-    if (updateTestCaseDto.status() != null) {
-      testCaseFromDb.setStatus(updateTestCaseDto.status());
-    }
+    updateTestCase(testCaseFromDb, updateTestCaseDto);
 
     return testCaseRepository.save(testCaseFromDb);
   }
@@ -54,10 +48,21 @@ public class TestCaseServiceImpl implements TestCaseService {
       throw new IllegalArgumentException("Test case ID cannot be null or negative");
     }
 
-    TestCase testCaseFromDb =
-        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
+    TestCase testCaseFromDb = getTestCase(testCaseId);
 
     testCaseRepository.delete(testCaseFromDb);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<TestCase> getAllTestCases() {
+    return testCaseRepository.findAll();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public TestCase getTestCase(Long id) {
+    return testCaseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
   private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
@@ -80,8 +85,28 @@ public class TestCaseServiceImpl implements TestCaseService {
       throw new IllegalArgumentException("Title cannot be empty");
     }
 
-    if (testCaseDto.requirementId() <= 0) {
+    if (testCaseDto.requirementId() != null && testCaseDto.requirementId() <= 0) {
       throw new IllegalArgumentException("Requirement ID must be greater than 0");
+    }
+  }
+
+  private void updateTestCase(
+      TestCase existingTestCase, CreateOrUpdateTestCaseDto updateTestCaseDto) {
+
+    if (updateTestCaseDto.title() != null) {
+      existingTestCase.setTitle(updateTestCaseDto.title());
+    }
+
+    if (updateTestCaseDto.description() != null) {
+      existingTestCase.setDescription(updateTestCaseDto.description());
+    }
+
+    if (updateTestCaseDto.status() != null) {
+      existingTestCase.setStatus(updateTestCaseDto.status());
+    }
+
+    if (updateTestCaseDto.requirementId() != null) {
+      existingTestCase.setRequirementId(updateTestCaseDto.requirementId());
     }
   }
 }
