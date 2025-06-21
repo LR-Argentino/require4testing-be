@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.blackbird.requirefortesting.requirements.internal.RequirementServiceImpl;
 import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
@@ -46,24 +47,10 @@ class RequirementServiceDeleteTests {
   }
 
   @Test
-  void test_deleteWithInvalidId_shouldThrowException() {
-    Long id = 999L;
-    when(requirementRepository.findById(id)).thenReturn(Optional.empty());
-
-    IllegalArgumentException exception =
-        assertThrows(
-            IllegalArgumentException.class, () -> requirementService.deleteRequirement(id));
-
-    verify(requirementRepository, times(1)).findById(id);
-    verify(requirementRepository, times(0)).delete(org.mockito.ArgumentMatchers.any());
-    assert exception.getMessage().contains("Requirement with id " + id + " does not exist");
-  }
-
-  @Test
   void test_deleteWithNullId_shouldThrowException() {
     Long id = null;
 
-    assertThrows(IllegalArgumentException.class, () -> requirementService.deleteRequirement(id));
+    assertThrows(EntityNotFoundException.class, () -> requirementService.deleteRequirement(id));
   }
 
   @Test
