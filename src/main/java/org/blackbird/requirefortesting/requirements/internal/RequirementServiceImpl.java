@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.requirements.internal;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
@@ -38,12 +39,7 @@ public class RequirementServiceImpl implements RequirementService {
       throw new IllegalArgumentException("Update data cannot be null");
     }
 
-    Requirement requirement =
-        requirementRepository
-            .findById(id)
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException("Requirement with id " + id + " does not exist"));
+    Requirement requirement = getRequirement(id);
 
     if (requirement.getStatus() != Status.OPEN) {
       throw new IllegalStateException("Requirement cannot be updated because it is not open");
@@ -64,12 +60,7 @@ public class RequirementServiceImpl implements RequirementService {
   @Override
   @Transactional
   public void deleteRequirement(Long id) {
-    Requirement requirement =
-        requirementRepository
-            .findById(id)
-            .orElseThrow(
-                () ->
-                    new IllegalArgumentException("Requirement with id " + id + " does not exist"));
+    Requirement requirement = getRequirement(id);
 
     requirementRepository.delete(requirement);
   }
@@ -84,6 +75,12 @@ public class RequirementServiceImpl implements RequirementService {
             .build();
 
     return requirement;
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public Requirement getRequirement(Long id) {
+    return requirementRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
   private void validateRequirementTitle(String title) {
