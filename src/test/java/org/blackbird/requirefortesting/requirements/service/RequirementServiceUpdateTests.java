@@ -73,7 +73,7 @@ class RequirementServiceUpdateTests {
   @Test
   void test_updateWithInvalidData_shouldThrowException() {
     Long id = 1L;
-    String title = ""; // Invalid title
+    String title = "";
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
