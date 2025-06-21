@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
 import org.blackbird.requirefortesting.requirements.internal.RequirementServiceImpl;
 import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
@@ -32,7 +33,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -52,18 +53,18 @@ class RequirementServiceUpdateTests {
 
   @Test
   void test_updateWithInvalidId_shouldThrowException() {
-    Long id = 999L; // Assuming this ID does not exist
+    Long id = 999L;
     String title = "Updated Requirement";
     String description = "This is an updated test requirement.";
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     when(requirementRepository.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-        IllegalArgumentException.class,
+        EntityNotFoundException.class,
         () -> {
           requirementService.updateRequirement(id, updateRequirement);
         });
@@ -77,7 +78,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, Status.OPEN);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -104,7 +105,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, null);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -132,7 +133,7 @@ class RequirementServiceUpdateTests {
     Priority priority = Priority.MEDIUM;
 
     CreateOrUpdateRequirementDto updateRequirement =
-        new CreateOrUpdateRequirementDto(title, description, priority);
+        new CreateOrUpdateRequirementDto(title, description, priority, null);
 
     Requirement existingRequirement =
         Requirement.builder()
@@ -159,7 +160,7 @@ class RequirementServiceUpdateTests {
     when(requirementRepository.findById(id)).thenReturn(Optional.empty());
 
     assertThrows(
-        IllegalArgumentException.class,
+        EntityNotFoundException.class,
         () -> {
           requirementService.deleteRequirement(id);
         });

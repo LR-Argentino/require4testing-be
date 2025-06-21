@@ -19,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
@@ -56,10 +55,10 @@ class RequirementControllerIntegrationTest {
   }
 
   @Test
-  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
+  //  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
   void test_createRequirement_shouldPersistToDatabase() throws Exception {
     CreateOrUpdateRequirementDto dto =
-        new CreateOrUpdateRequirementDto("Integration Test", "Real test", Priority.HIGH);
+        new CreateOrUpdateRequirementDto("Integration Test", "Real test", Priority.HIGH, null);
 
     MvcResult result =
         mockMvc
@@ -79,7 +78,7 @@ class RequirementControllerIntegrationTest {
   }
 
   @Test
-  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
+  //  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
   void test_updateRequirement_shouldModifyExisting() throws Exception {
     Requirement existing =
         requirementRepository.save(
@@ -91,7 +90,8 @@ class RequirementControllerIntegrationTest {
                 .build());
 
     CreateOrUpdateRequirementDto updateDto =
-        new CreateOrUpdateRequirementDto("Updated Title", "Updated Description", Priority.HIGH);
+        new CreateOrUpdateRequirementDto(
+            "Updated Title", "Updated Description", Priority.HIGH, null);
 
     mockMvc
         .perform(
@@ -109,7 +109,7 @@ class RequirementControllerIntegrationTest {
   }
 
   @Test
-  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
+  //  @WithMockUser(username = "engineer", roles = "REQUIREMENTS_ENGINEER")
   void test_deleteRequirement_shouldRemoveFromDatabase() throws Exception {
     Requirement existing =
         requirementRepository.save(
