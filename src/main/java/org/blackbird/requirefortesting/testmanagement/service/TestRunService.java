@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.testmanagement.service;
 
+import java.util.List;
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 
@@ -9,6 +10,10 @@ public interface TestRunService {
   TestRun update(Long testRunId, CreateTestRunDto testRunDto);
 
   void delete(Long testRunId);
+
+  List<TestRun> getAllTestRuns();
+
+  TestRun getTestRunById(Long testRunId);
 
   void addTestCase(Long testRunId, Long testCaseId);
 }

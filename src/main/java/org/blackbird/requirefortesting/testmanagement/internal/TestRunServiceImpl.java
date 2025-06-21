@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
@@ -68,6 +69,18 @@ public class TestRunServiceImpl implements TestRunService {
     }
 
     testRun.getTestCases().add(testCase);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<TestRun> getAllTestRuns() {
+    return testRunRepository.findAll();
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public TestRun getTestRunById(Long testRunId) {
+    return findTestRunById(testRunId);
   }
 
   private TestRun findTestRunById(Long testRunId) {
