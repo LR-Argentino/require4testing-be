@@ -48,7 +48,7 @@ public class TestCaseIntegrationTests {
     CreateOrUpdateTestCaseDto testCase =
         new CreateOrUpdateTestCaseDto(title, description, 1L, null);
 
-    TestCase createdTestCase = testCaseServiceImpl.createTestCase(testCase);
+    TestCase createdTestCase = testCaseServiceImpl.createTestCase(testCase, 1L);
 
     assertNotNull(createdTestCase.getId(), "Saved test case should have an ID");
     assertEquals("Sample Test Case", createdTestCase.getTitle(), "Test case name should match");
@@ -98,7 +98,7 @@ public class TestCaseIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testCaseServiceImpl.createTestCase(invalidTestCase);
+          testCaseServiceImpl.createTestCase(invalidTestCase, 1L);
         },
         "Should throw exception for null title");
   }
@@ -112,7 +112,7 @@ public class TestCaseIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testCaseServiceImpl.createTestCase(invalidTestCase);
+          testCaseServiceImpl.createTestCase(invalidTestCase, 1L);
         },
         "Should throw exception for empty title");
   }
@@ -126,7 +126,7 @@ public class TestCaseIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testCaseServiceImpl.createTestCase(invalidTestCase);
+          testCaseServiceImpl.createTestCase(invalidTestCase, 1L);
         },
         "Should throw exception for whitespace-only title");
   }
@@ -141,7 +141,7 @@ public class TestCaseIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testCaseServiceImpl.createTestCase(testCase);
+          testCaseServiceImpl.createTestCase(testCase, 1L);
         },
         "Should handle very long titles gracefully");
   }
@@ -155,7 +155,7 @@ public class TestCaseIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testCaseServiceImpl.createTestCase(invalidTestCase);
+          testCaseServiceImpl.createTestCase(invalidTestCase, 1L);
         },
         "Should throw exception for negative requirement ID");
   }
@@ -163,6 +163,6 @@ public class TestCaseIntegrationTests {
   private TestCase createTestCase(String title, String description, Status status) {
     CreateOrUpdateTestCaseDto testCaseDto =
         new CreateOrUpdateTestCaseDto(title, description, 1L, status);
-    return testCaseServiceImpl.createTestCase(testCaseDto);
+    return testCaseServiceImpl.createTestCase(testCaseDto, 1L);
   }
 }

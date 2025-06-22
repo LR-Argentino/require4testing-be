@@ -50,7 +50,7 @@ public class RequirementServiceIntegrationTests {
     CreateOrUpdateRequirementDto requirement =
         new CreateOrUpdateRequirementDto(title, description, Priority.HIGH, null);
 
-    Requirement createdRequirement = requirementServiceImpl.createRequirement(requirement);
+    Requirement createdRequirement = requirementServiceImpl.createRequirement(requirement, 1L);
 
     assertNotNull(createdRequirement.getId(), "Saved requirement should have an ID");
     assertEquals(
@@ -139,7 +139,7 @@ public class RequirementServiceIntegrationTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementServiceImpl.createRequirement(invalidRequirement);
+          requirementServiceImpl.createRequirement(invalidRequirement, 1L);
         },
         "Should throw exception for null title");
   }
@@ -153,7 +153,7 @@ public class RequirementServiceIntegrationTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementServiceImpl.createRequirement(invalidRequirement);
+          requirementServiceImpl.createRequirement(invalidRequirement, 1L);
         },
         "Should throw exception for empty title");
   }
@@ -167,7 +167,7 @@ public class RequirementServiceIntegrationTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementServiceImpl.createRequirement(invalidRequirement);
+          requirementServiceImpl.createRequirement(invalidRequirement, 1L);
         },
         "Should throw exception for whitespace-only title");
   }
@@ -181,7 +181,7 @@ public class RequirementServiceIntegrationTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementServiceImpl.createRequirement(invalidRequirement);
+          requirementServiceImpl.createRequirement(invalidRequirement, 1L);
         },
         "Should throw exception for title with special characters");
   }
@@ -192,7 +192,7 @@ public class RequirementServiceIntegrationTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementServiceImpl.createRequirement(null);
+          requirementServiceImpl.createRequirement(null, 1L);
         },
         "Should throw exception for null requirement data");
   }
@@ -239,6 +239,6 @@ public class RequirementServiceIntegrationTests {
   private Requirement createRequirement(String title, String description, Priority priority) {
     CreateOrUpdateRequirementDto requirementDto =
         new CreateOrUpdateRequirementDto(title, description, priority, null);
-    return requirementServiceImpl.createRequirement(requirementDto);
+    return requirementServiceImpl.createRequirement(requirementDto, 1L);
   }
 }

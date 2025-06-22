@@ -2,6 +2,7 @@ package org.blackbird.requirefortesting.testmanagement.api;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.blackbird.requirefortesting.shared.JwtService;
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
@@ -13,10 +14,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TestRunController {
   private final TestRunService testRunService;
+  private static final String AUTHORIZATION_HEADER = "Authorization";
+
+  private final JwtService jwtUtil;
 
   @PostMapping
-  public ResponseEntity<TestRun> createTestRun(@RequestBody CreateTestRunDto testRunDto) {
-    TestRun testRun = testRunService.create(testRunDto);
+  public ResponseEntity<TestRun> createTestRun(
+      @RequestHeader(AUTHORIZATION_HEADER) String authToken,
+      @RequestBody CreateTestRunDto testRunDto) {
+    Long userId = jwtUtil.extractUserId(authToken);
+    TestRun testRun = testRunService.create(testRunDto, userId);
     return ResponseEntity.ok(testRun);
   }
 

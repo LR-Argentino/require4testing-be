@@ -34,7 +34,7 @@ class TestCaseServiceCreateTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          testManagementService.createTestCase(createTestCaseDto);
+          testManagementService.createTestCase(createTestCaseDto, 1L);
         });
   }
 
@@ -51,7 +51,7 @@ class TestCaseServiceCreateTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          testManagementService.createTestCase(createTestCaseDto);
+          testManagementService.createTestCase(createTestCaseDto, 1L);
         });
   }
 
@@ -60,7 +60,7 @@ class TestCaseServiceCreateTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          testManagementService.createTestCase(null);
+          testManagementService.createTestCase(null, 1L);
         });
   }
 
@@ -74,7 +74,7 @@ class TestCaseServiceCreateTests {
     CreateOrUpdateTestCaseDto createTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
-    assertDoesNotThrow(() -> testManagementService.createTestCase(createTestCaseDto));
+    assertDoesNotThrow(() -> testManagementService.createTestCase(createTestCaseDto, 1L));
   }
 
   @Test
@@ -98,7 +98,7 @@ class TestCaseServiceCreateTests {
     CreateOrUpdateTestCaseDto createTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
-    TestCase result = testManagementService.createTestCase(createTestCaseDto);
+    TestCase result = testManagementService.createTestCase(createTestCaseDto, 1L);
 
     assertEquals(validTitle, result.getTitle());
     assertEquals(description, result.getDescription());
@@ -126,7 +126,7 @@ class TestCaseServiceCreateTests {
     CreateOrUpdateTestCaseDto createTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, null);
 
-    TestCase result = testManagementService.createTestCase(createTestCaseDto);
+    TestCase result = testManagementService.createTestCase(createTestCaseDto, 1L);
 
     assertEquals(requirementId, result.getRequirementId());
     assertEquals(validTitle, result.getTitle());

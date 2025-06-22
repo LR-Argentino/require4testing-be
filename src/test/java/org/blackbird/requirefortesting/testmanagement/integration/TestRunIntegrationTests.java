@@ -38,7 +38,7 @@ public class TestRunIntegrationTests {
 
     CreateTestRunDto testRunDto = new CreateTestRunDto(title, description, startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId(), "Saved test run should have an ID");
     assertEquals("Sample Test Run", createdTestRun.getTitle(), "Test run name should match");
@@ -55,7 +55,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception for null title");
   }
@@ -71,7 +71,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception when end time is before start time");
   }
@@ -86,7 +86,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception for null start time");
   }
@@ -101,7 +101,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception for null end time");
   }
@@ -116,7 +116,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception for empty title");
   }
@@ -128,7 +128,7 @@ public class TestRunIntegrationTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto testRunDto = new CreateTestRunDto("Valid Title", null, startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals("Valid Title", createdTestRun.getTitle());
@@ -142,7 +142,7 @@ public class TestRunIntegrationTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto testRunDto = new CreateTestRunDto("Valid Title", "", startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals("Valid Title", createdTestRun.getTitle());
@@ -158,7 +158,7 @@ public class TestRunIntegrationTests {
     CreateTestRunDto testRunDto =
         new CreateTestRunDto(specialTitle, "Description", startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals(specialTitle, createdTestRun.getTitle());
@@ -173,7 +173,7 @@ public class TestRunIntegrationTests {
     CreateTestRunDto testRunDto =
         new CreateTestRunDto(unicodeTitle, "Unicode описание", startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals(unicodeTitle, createdTestRun.getTitle());
@@ -189,7 +189,7 @@ public class TestRunIntegrationTests {
     assertThrows(
         Exception.class,
         () -> {
-          testRunService.create(invalidTestCase);
+          testRunService.create(invalidTestCase, 1L);
         },
         "Should throw exception when start and end time are the same");
   }
@@ -202,7 +202,7 @@ public class TestRunIntegrationTests {
     CreateTestRunDto testRunDto =
         new CreateTestRunDto("Past Start Test", "Description", pastStartTime, futureEndTime);
 
-    assertThrows(Exception.class, () -> testRunService.create(testRunDto));
+    assertThrows(Exception.class, () -> testRunService.create(testRunDto, 1L));
   }
 
   @Test
@@ -213,7 +213,7 @@ public class TestRunIntegrationTests {
     CreateTestRunDto testRunDto =
         new CreateTestRunDto("Future Test", "Description", startTime, farFutureEndTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals("Future Test", createdTestRun.getTitle());
@@ -227,7 +227,7 @@ public class TestRunIntegrationTests {
     CreateTestRunDto testRunDto =
         new CreateTestRunDto("Minimal Duration", "Description", startTime, endTime);
 
-    TestRun createdTestRun = testRunService.create(testRunDto);
+    TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
     assertNotNull(createdTestRun.getId());
     assertEquals("Minimal Duration", createdTestRun.getTitle());

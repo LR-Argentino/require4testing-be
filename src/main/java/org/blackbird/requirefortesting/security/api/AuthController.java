@@ -1,8 +1,8 @@
 package org.blackbird.requirefortesting.security.api;
 
 import lombok.RequiredArgsConstructor;
+import org.blackbird.requirefortesting.security.internal.JwtUtil;
 import org.blackbird.requirefortesting.security.internal.PostgresUserDetailsService;
-import org.blackbird.requirefortesting.security.internal.jwt.JwtUtil;
 import org.blackbird.requirefortesting.security.model.AuthResponseDto;
 import org.blackbird.requirefortesting.security.model.CreateUserDto;
 import org.blackbird.requirefortesting.security.model.LoginRequestDto;
@@ -25,8 +25,7 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
     authenticationManager.authenticate(
-        new UsernamePasswordAuthenticationToken(
-            loginRequest.username(), loginRequest.password()));
+        new UsernamePasswordAuthenticationToken(loginRequest.username(), loginRequest.password()));
 
     final User user = (User) userDetailsService.loadUserByUsername(loginRequest.username());
     final String jwt = jwtUtil.generateToken(user);

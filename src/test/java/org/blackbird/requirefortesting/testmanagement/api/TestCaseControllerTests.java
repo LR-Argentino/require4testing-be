@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Optional;
+import org.blackbird.requirefortesting.security.internal.JwtUtil;
+import org.blackbird.requirefortesting.security.model.User;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
@@ -16,7 +18,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -35,6 +39,7 @@ class TestCaseControllerTests {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
+  @Autowired private JwtUtil jwtUtil;
 
   @Autowired private TestCaseRepository testCaseRepository;
 
@@ -52,6 +57,19 @@ class TestCaseControllerTests {
     registry.add("spring.datasource.password", postgres::getPassword);
   }
 
+  private String generateValidJwtToken() {
+    User testUser =
+        User.builder()
+            .id(1L)
+            .username("testuser")
+            .email("test@example.com")
+            .authorities(List.of(new SimpleGrantedAuthority("ROLE_REQUIREMENTS_ENGINEER")))
+            .enabled(true)
+            .build();
+
+    return jwtUtil.generateToken(testUser);
+  }
+
   @Test
   @WithMockUser(username = "testuser", roles = "USER")
   void test_createTestCase_shouldPersistToDatabase() throws Exception {
@@ -63,6 +81,7 @@ class TestCaseControllerTests {
             .perform(
                 post("/api/test-cases")
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                     .content(objectMapper.writeValueAsString(dto)))
             .andDo(print())
             .andExpect(status().isOk())
@@ -213,6 +232,7 @@ class TestCaseControllerTests {
         .perform(
             post("/api/test-cases")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(invalidDto)))
         .andDo(print())
         .andExpect(status().isBadRequest());
@@ -231,6 +251,7 @@ class TestCaseControllerTests {
         .perform(
             post("/api/test-cases")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(minimalDto)))
         .andDo(print())
         .andExpect(status().isOk())
@@ -310,6 +331,7 @@ class TestCaseControllerTests {
         .perform(
             post("/api/test-cases")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(longTitleDto)))
         .andDo(print())
         .andExpect(status().isBadRequest()); // Should fail validation
@@ -325,6 +347,7 @@ class TestCaseControllerTests {
         .perform(
             post("/api/test-cases")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content("{\"invalid\":\"json\"}"))
         .andDo(print())
         .andExpect(status().isBadRequest());

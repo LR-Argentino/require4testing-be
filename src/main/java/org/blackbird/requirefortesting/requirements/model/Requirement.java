@@ -28,11 +28,16 @@ public class Requirement {
   private String description;
 
   @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
   private Priority priority;
 
   @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
   @Builder.Default
   private Status status = Status.OPEN;
+
+  @Column(nullable = false)
+  private Long createdBy;
 
   @LastModifiedDate private LocalDateTime updatedAt;
 
