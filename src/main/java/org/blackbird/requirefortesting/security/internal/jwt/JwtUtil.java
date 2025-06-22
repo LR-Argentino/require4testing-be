@@ -4,20 +4,31 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import org.blackbird.requirefortesting.security.model.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
 
-  private final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-  private final int JWT_EXPIRATION = 86400000; // 24 hours
+  @Value("${jwt.secret:mySecretKey1234567890123456789012345678901234567890}")
+  private String jwtSecret;
+  
+  @Value("${jwt.expiration:86400000}")
+  private int jwtExpiration;
+
+  private SecretKey getSigningKey() {
+    byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
+    return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS256.getJcaName());
+  }
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -37,7 +48,7 @@ public class JwtUtil {
   }
 
   private Claims extractAllClaims(String token) {
-    return Jwts.parser().setSigningKey(SECRET_KEY).build().parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
   }
 
   private Boolean isTokenExpired(String token) {
@@ -63,8 +74,8 @@ public class JwtUtil {
         .setClaims(claims)
         .setSubject(subject)
         .setIssuedAt(new Date(System.currentTimeMillis()))
-        .setExpiration(new Date(System.currentTimeMillis() + JWT_EXPIRATION))
-        .signWith(SECRET_KEY)
+        .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+        .signWith(getSigningKey())
         .compact();
   }
 

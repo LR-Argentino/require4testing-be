@@ -24,6 +24,9 @@ public class TestRunValidator {
     if (title == null || title.isBlank()) {
       throw new IllegalArgumentException("Test run title cannot be null or blank");
     }
+    if (title.length() > 255) {
+      throw new IllegalArgumentException("Test run title cannot exceed 255 characters");
+    }
   }
 
   public static void validateDatesNotNull(CreateTestRunDto testRunDto) {
@@ -71,6 +74,15 @@ public class TestRunValidator {
     }
 
     validateStartDate(testRunDto);
+  }
+
+  public static void validateStartAndEndDate(CreateTestRunDto testRunDto) {
+    if (testRunDto.startDate().isAfter(testRunDto.endDate())) {
+      throw new IllegalArgumentException("Start date cannot be after end date");
+    }
+    if (testRunDto.startDate().equals(testRunDto.endDate())) {
+      throw new IllegalArgumentException("Start date cannot be the same as end date");
+    }
   }
 
   private static boolean isStartDateAfterEndDate(

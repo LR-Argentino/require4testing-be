@@ -33,7 +33,7 @@ public class TestRunController {
     return ResponseEntity.ok(testRun);
   }
 
-  @DeleteMapping
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteTestRun(@PathVariable Long id) {
     testRunService.delete(id);
     return ResponseEntity.noContent().build();
