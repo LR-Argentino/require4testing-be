@@ -55,6 +55,7 @@ class RequirementRepositoryTest {
             .description(description)
             .priority(priority)
             .status(status)
+            .createdBy(1L)
             .build());
   }
 
@@ -66,6 +67,7 @@ class RequirementRepositoryTest {
             .title("Valid Test Requirement")
             .description("This is a valid test requirement")
             .priority(Priority.LOW)
+            .createdBy(1L)
             .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
@@ -234,6 +236,7 @@ class RequirementRepositoryTest {
             .title("Test Requirement")
             .description(null)
             .priority(Priority.LOW)
+            .createdBy(1L)
             .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
@@ -250,6 +253,7 @@ class RequirementRepositoryTest {
             .title("Test Requirement")
             .description("")
             .priority(Priority.LOW)
+            .createdBy(1L)
             .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
@@ -269,6 +273,7 @@ class RequirementRepositoryTest {
             .title(unicodeTitle)
             .description(unicodeDescription)
             .priority(Priority.HIGH)
+            .createdBy(1L)
             .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
@@ -287,6 +292,7 @@ class RequirementRepositoryTest {
               .title("Test Requirement " + priority.name())
               .description("Test for priority " + priority.name())
               .priority(priority)
+              .createdBy(1L)
               .build();
 
       Requirement savedRequirement = requirementRepository.save(requirement);
@@ -306,6 +312,7 @@ class RequirementRepositoryTest {
               .description("Test for status " + status.name())
               .priority(Priority.MEDIUM)
               .status(status)
+              .createdBy(1L)
               .build();
 
       Requirement savedRequirement = requirementRepository.save(requirement);
@@ -323,6 +330,7 @@ class RequirementRepositoryTest {
             .title("Test Requirement")
             .description("Test requirement without explicit status")
             .priority(Priority.LOW)
+            .createdBy(1L)
             .build();
 
     Requirement savedRequirement = requirementRepository.save(requirement);
@@ -339,6 +347,7 @@ class RequirementRepositoryTest {
                 .title("Original Title")
                 .description("Original Description")
                 .priority(Priority.LOW)
+                .createdBy(1L)
                 .build());
 
     LocalDateTime originalCreatedAt = savedRequirement.getCreatedAt();

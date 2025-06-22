@@ -5,7 +5,7 @@ import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirem
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 
 public interface RequirementService {
-  Requirement createRequirement(CreateOrUpdateRequirementDto createRequirement);
+  Requirement createRequirement(CreateOrUpdateRequirementDto createRequirement, Long userId);
 
   Requirement updateRequirement(Long id, CreateOrUpdateRequirementDto updateRequirement);
 

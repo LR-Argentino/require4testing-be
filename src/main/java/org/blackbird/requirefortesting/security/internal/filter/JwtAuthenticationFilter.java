@@ -1,10 +1,11 @@
-package org.blackbird.requirefortesting.security.internal.jwt;
+package org.blackbird.requirefortesting.security.internal.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import org.blackbird.requirefortesting.security.internal.JwtUtil;
 import org.blackbird.requirefortesting.security.internal.PostgresUserDetailsService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

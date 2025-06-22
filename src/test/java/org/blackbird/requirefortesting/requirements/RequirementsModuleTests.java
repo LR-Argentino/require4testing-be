@@ -9,15 +9,15 @@ import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.modulith.test.ApplicationModuleTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-@ApplicationModuleTest
 @Transactional
 @Testcontainers
+@SpringBootTest
 class RequirementsModuleTests {
 
   @Autowired private RequirementServiceImpl requirementService;
@@ -33,7 +33,7 @@ class RequirementsModuleTests {
         new CreateOrUpdateRequirementDto(
             "Test Requirement", "Test Description", Priority.HIGH, null);
 
-    Requirement created = requirementService.createRequirement(createDto);
+    Requirement created = requirementService.createRequirement(createDto, 1L);
 
     assertThat(created).isNotNull();
     assertThat(created.getTitle()).isEqualTo("Test Requirement");
@@ -46,7 +46,7 @@ class RequirementsModuleTests {
     CreateOrUpdateRequirementDto createDto =
         new CreateOrUpdateRequirementDto(
             "Original Title", "Original Description", Priority.LOW, null);
-    Requirement created = requirementService.createRequirement(createDto);
+    Requirement created = requirementService.createRequirement(createDto, 1L);
 
     CreateOrUpdateRequirementDto updateDto =
         new CreateOrUpdateRequirementDto(
@@ -63,7 +63,7 @@ class RequirementsModuleTests {
   void shouldDeleteRequirement() {
     CreateOrUpdateRequirementDto createDto =
         new CreateOrUpdateRequirementDto("To Delete", "Will be deleted", Priority.MEDIUM, null);
-    Requirement created = requirementService.createRequirement(createDto);
+    Requirement created = requirementService.createRequirement(createDto, 1L);
 
     requirementService.deleteRequirement(created.getId());
   }

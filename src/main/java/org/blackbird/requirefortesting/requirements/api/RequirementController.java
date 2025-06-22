@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
+import org.blackbird.requirefortesting.shared.JwtService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,13 +15,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RequirementController {
 
+  private static final String AUTHORIZATION_HEADER = "Authorization";
+
+  private final JwtService jwtUtil;
   private final RequirementService requirementService;
 
-  //  @PreAuthorize("hasRole('REQUIREMENTS_ENGINEER')")
+  @PreAuthorize("hasRole('REQUIREMENTS_ENGINEER')")
   @PostMapping
   public ResponseEntity<Requirement> createRequirement(
+      @RequestHeader(AUTHORIZATION_HEADER) String authToken,
       @RequestBody CreateOrUpdateRequirementDto requirement) {
-    Requirement newRequirement = requirementService.createRequirement(requirement);
+    Long userId = jwtUtil.extractUserId(authToken);
+    Requirement newRequirement = requirementService.createRequirement(requirement, userId);
     return ResponseEntity.ok(newRequirement);
   }
 

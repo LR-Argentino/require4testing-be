@@ -20,14 +20,16 @@ public class RequirementServiceImpl implements RequirementService {
 
   @Override
   @Transactional
-  public Requirement createRequirement(CreateOrUpdateRequirementDto createRequirement) {
+  public Requirement createRequirement(
+      CreateOrUpdateRequirementDto createRequirement, Long userId) {
     if (createRequirement == null) {
       throw new IllegalArgumentException("Requirement data cannot be null");
     }
 
     validateRequirementTitle(createRequirement.title());
 
-    Requirement newRequirement = requirementRepository.save(mapToRequirement(createRequirement));
+    Requirement newRequirement =
+        requirementRepository.save(mapToRequirement(createRequirement, userId));
 
     return newRequirement;
   }
@@ -79,13 +81,15 @@ public class RequirementServiceImpl implements RequirementService {
     }
   }
 
-  private Requirement mapToRequirement(CreateOrUpdateRequirementDto createRequirement) {
+  private Requirement mapToRequirement(
+      CreateOrUpdateRequirementDto createRequirement, Long userId) {
     Requirement requirement =
         Requirement.builder()
             .title(createRequirement.title())
             .description(createRequirement.description())
             .priority(
                 createRequirement.priority() != null ? createRequirement.priority() : Priority.LOW)
+            .createdBy(userId)
             .build();
 
     return requirement;
