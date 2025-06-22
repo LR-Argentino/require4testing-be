@@ -93,6 +93,17 @@ public class TestRunServiceImpl implements TestRunService {
       existingTestRun.setTitle(testRunDto.title());
     }
 
+    if (testRunDto.description() != null) {
+      existingTestRun.setDescription(testRunDto.description());
+    }
+
+    if (testRunDto.startDate() != null && testRunDto.endDate() != null) {
+      TestRunValidator.validateStartAndEndDate(testRunDto);
+      existingTestRun.setStartTime(testRunDto.startDate());
+      existingTestRun.setEndTime(testRunDto.endDate());
+      return;
+    }
+
     if (testRunDto.startDate() != null) {
       TestRunValidator.validateStartDateForUpdate(existingTestRun, testRunDto);
       existingTestRun.setStartTime(testRunDto.startDate());

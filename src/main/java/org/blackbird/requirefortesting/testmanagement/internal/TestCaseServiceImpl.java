@@ -83,9 +83,11 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
     if (testCaseDto.title() == null || testCaseDto.title().isBlank()) {
       throw new IllegalArgumentException("Title cannot be empty");
+    } else if (testCaseDto.title().length() > 255) {
+      throw new IllegalArgumentException("Title cannot exceed 255 characters");
     }
 
-    if (testCaseDto.requirementId() != null && testCaseDto.requirementId() <= 0) {
+    if (testCaseDto.requirementId() == null || testCaseDto.requirementId() <= 0) {
       throw new IllegalArgumentException("Requirement ID must be greater than 0");
     }
   }
