@@ -9,10 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.blackbird.requirefortesting.security.internal.JwtUtil;
+import org.blackbird.requirefortesting.security.model.User;
 import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
-import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
@@ -21,7 +22,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -40,6 +43,7 @@ class TestRunControllerTests {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
+  @Autowired private JwtUtil jwtUtil;
 
   @Autowired private TestRunRepository testRunRepository;
   @Autowired private TestCaseRepository testCaseRepository;
@@ -58,6 +62,19 @@ class TestRunControllerTests {
     registry.add("spring.datasource.password", postgres::getPassword);
   }
 
+  private String generateValidJwtToken() {
+    User testUser =
+        User.builder()
+            .id(1L)
+            .username("testuser")
+            .email("test@example.com")
+            .authorities(List.of(new SimpleGrantedAuthority("ROLE_REQUIREMENTS_ENGINEER")))
+            .enabled(true)
+            .build();
+
+    return jwtUtil.generateToken(testUser);
+  }
+
   @Test
   @WithMockUser(username = "testuser", roles = "USER")
   void test_createTestRun_shouldPersistToDatabase() throws Exception {
@@ -72,6 +89,7 @@ class TestRunControllerTests {
             .perform(
                 post("/api/test-runs")
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                     .content(objectMapper.writeValueAsString(dto)))
             .andDo(print())
             .andExpect(status().isOk())
@@ -251,7 +269,10 @@ class TestRunControllerTests {
 
     mockMvc
         .perform(
-            post("/api/test-runs/{testRunId}/test-cases/{testCaseId}", testRun.getId(), testCase.getId()))
+            post(
+                "/api/test-runs/{testRunId}/test-cases/{testCaseId}",
+                testRun.getId(),
+                testCase.getId()))
         .andDo(print())
         .andExpect(status().isNoContent());
 
@@ -284,7 +305,8 @@ class TestRunControllerTests {
                 .build());
 
     mockMvc
-        .perform(post("/api/test-runs/{testRunId}/test-cases/{testCaseId}", 99999L, testCase.getId()))
+        .perform(
+            post("/api/test-runs/{testRunId}/test-cases/{testCaseId}", 99999L, testCase.getId()))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
@@ -306,7 +328,8 @@ class TestRunControllerTests {
                 .build());
 
     mockMvc
-        .perform(post("/api/test-runs/{testRunId}/test-cases/{testCaseId}", testRun.getId(), 99999L))
+        .perform(
+            post("/api/test-runs/{testRunId}/test-cases/{testCaseId}", testRun.getId(), 99999L))
         .andDo(print())
         .andExpect(status().isNotFound());
   }
@@ -317,12 +340,14 @@ class TestRunControllerTests {
     LocalDateTime startTime = LocalDateTime.now().plusDays(1);
     LocalDateTime endTime = LocalDateTime.now().plusDays(2);
 
-    CreateTestRunDto invalidDto = new CreateTestRunDto(null, "Valid description", startTime, endTime);
+    CreateTestRunDto invalidDto =
+        new CreateTestRunDto(null, "Valid description", startTime, endTime);
 
     mockMvc
         .perform(
             post("/api/test-runs")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(invalidDto)))
         .andDo(print())
         .andExpect(status().isBadRequest());
@@ -343,6 +368,7 @@ class TestRunControllerTests {
         .perform(
             post("/api/test-runs")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(invalidDto)))
         .andDo(print())
         .andExpect(status().isBadRequest());
@@ -363,6 +389,7 @@ class TestRunControllerTests {
         .perform(
             post("/api/test-runs")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(invalidDto)))
         .andDo(print())
         .andExpect(status().isBadRequest());
@@ -384,6 +411,7 @@ class TestRunControllerTests {
         .perform(
             post("/api/test-runs")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                 .content(objectMapper.writeValueAsString(invalidDto)))
         .andDo(print())
         .andExpect(status().isBadRequest());

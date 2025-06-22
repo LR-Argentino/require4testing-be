@@ -15,6 +15,7 @@ import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,7 +37,7 @@ class RequirementServiceCreateTests {
 
     assertDoesNotThrow(
         () -> {
-          requirementService.createRequirement(createRequirement);
+          requirementService.createRequirement(createRequirement, 1L);
         });
   }
 
@@ -52,7 +53,7 @@ class RequirementServiceCreateTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementService.createRequirement(createRequirement);
+          requirementService.createRequirement(createRequirement, 1L);
         });
   }
 
@@ -68,7 +69,7 @@ class RequirementServiceCreateTests {
     assertThrows(
         IllegalArgumentException.class,
         () -> {
-          requirementService.createRequirement(createRequirement);
+          requirementService.createRequirement(createRequirement, 1L);
         });
   }
 
@@ -88,10 +89,10 @@ class RequirementServiceCreateTests {
 
     CreateOrUpdateRequirementDto createRequirement =
         new CreateOrUpdateRequirementDto(title, description, priority, null);
-    when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
+    when(requirementRepository.save(ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
 
-    Requirement result = requirementService.createRequirement(createRequirement);
+    Requirement result = requirementService.createRequirement(createRequirement, 1L);
 
     assertThat(result.getStatus()).isEqualTo(Status.OPEN);
   }
@@ -114,7 +115,7 @@ class RequirementServiceCreateTests {
         new CreateOrUpdateRequirementDto(title, description, null, null);
     when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
-    Requirement result = requirementService.createRequirement(createRequirement);
+    Requirement result = requirementService.createRequirement(createRequirement, 1L);
 
     assertThat(result.getPriority()).isEqualTo(Priority.LOW);
   }
@@ -126,7 +127,7 @@ class RequirementServiceCreateTests {
     IllegalArgumentException exception =
         assertThrows(
             IllegalArgumentException.class,
-            () -> requirementService.createRequirement(createRequirement));
+            () -> requirementService.createRequirement(createRequirement, 1L));
 
     assertThat(exception.getMessage()).isEqualTo("Requirement data cannot be null");
   }
@@ -142,7 +143,7 @@ class RequirementServiceCreateTests {
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> requirementService.createRequirement(createRequirement));
+        () -> requirementService.createRequirement(createRequirement, 1L));
   }
 
   @Test
@@ -161,16 +162,15 @@ class RequirementServiceCreateTests {
 
     CreateOrUpdateRequirementDto createRequirement =
         new CreateOrUpdateRequirementDto(title, description, priority, null);
-    when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
+    when(requirementRepository.save(ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
 
-    Requirement result = requirementService.createRequirement(createRequirement);
+    Requirement result = requirementService.createRequirement(createRequirement, 1L);
 
     assertThat(result.getTitle()).isEqualTo(title);
     assertThat(result.getDescription()).isEqualTo(description);
     assertThat(result.getPriority()).isEqualTo(priority);
-    verify(requirementRepository, times(1))
-        .save(org.mockito.ArgumentMatchers.any(Requirement.class));
+    verify(requirementRepository, times(1)).save(ArgumentMatchers.any(Requirement.class));
   }
 
   @Test
@@ -189,14 +189,13 @@ class RequirementServiceCreateTests {
 
     CreateOrUpdateRequirementDto createRequirement =
         new CreateOrUpdateRequirementDto(title, description, priority, null);
-    when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
+    when(requirementRepository.save(ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
 
-    Requirement result = requirementService.createRequirement(createRequirement);
+    Requirement result = requirementService.createRequirement(createRequirement, 1L);
 
     assertThat(result.getDescription()).isEqualTo(description);
-    verify(requirementRepository, times(1))
-        .save(org.mockito.ArgumentMatchers.any(Requirement.class));
+    verify(requirementRepository, times(1)).save(ArgumentMatchers.any(Requirement.class));
   }
 
   @Test
@@ -215,13 +214,12 @@ class RequirementServiceCreateTests {
 
     CreateOrUpdateRequirementDto createRequirement =
         new CreateOrUpdateRequirementDto(title, description, priority, null);
-    when(requirementRepository.save(org.mockito.ArgumentMatchers.any(Requirement.class)))
+    when(requirementRepository.save(ArgumentMatchers.any(Requirement.class)))
         .thenReturn(expectedRequirement);
 
-    Requirement result = requirementService.createRequirement(createRequirement);
+    Requirement result = requirementService.createRequirement(createRequirement, 1L);
 
     assertThat(result.getPriority()).isEqualTo(Priority.HIGH);
-    verify(requirementRepository, times(1))
-        .save(org.mockito.ArgumentMatchers.any(Requirement.class));
+    verify(requirementRepository, times(1)).save(ArgumentMatchers.any(Requirement.class));
   }
 }

@@ -23,11 +23,11 @@ public class TestRunServiceImpl implements TestRunService {
 
   @Override
   @Transactional
-  public TestRun create(CreateTestRunDto testRunDto) {
+  public TestRun create(CreateTestRunDto testRunDto, Long userId) {
     TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.getMessage());
     TestRunValidator.validateForCreation(testRunDto);
 
-    return testRunRepository.save(mapToTestRun(testRunDto));
+    return testRunRepository.save(mapToTestRun(testRunDto, userId));
   }
 
   @Override
@@ -115,13 +115,13 @@ public class TestRunServiceImpl implements TestRunService {
     }
   }
 
-  private TestRun mapToTestRun(CreateTestRunDto testRunDto) {
+  private TestRun mapToTestRun(CreateTestRunDto testRunDto, Long userId) {
     return TestRun.builder()
         .title(testRunDto.title())
         .description(testRunDto.description())
         .startTime(testRunDto.startDate())
         .endTime(testRunDto.endDate())
-        .createdBy(1L) // TODO: Replace with actual user ID from security context
+        .createdBy(userId)
         .build();
   }
 }

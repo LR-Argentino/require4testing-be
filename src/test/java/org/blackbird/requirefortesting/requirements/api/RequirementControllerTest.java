@@ -11,13 +11,17 @@ import java.util.Optional;
 import org.blackbird.requirefortesting.requirements.internal.repository.RequirementRepository;
 import org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto;
 import org.blackbird.requirefortesting.requirements.model.Requirement;
+import org.blackbird.requirefortesting.security.internal.JwtUtil;
+import org.blackbird.requirefortesting.security.model.User;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -36,8 +40,22 @@ class RequirementControllerTest {
 
   @Autowired private MockMvc mockMvc;
   @Autowired private ObjectMapper objectMapper;
+  @Autowired private JwtUtil jwtUtil;
 
   @Autowired private RequirementRepository requirementRepository;
+
+  private String generateValidJwtToken() {
+    User testUser =
+        User.builder()
+            .id(1L)
+            .username("testuser")
+            .email("test@example.com")
+            .authorities(List.of(new SimpleGrantedAuthority("ROLE_REQUIREMENTS_ENGINEER")))
+            .enabled(true)
+            .build();
+
+    return jwtUtil.generateToken(testUser);
+  }
 
   @Container
   static PostgreSQLContainer<?> postgres =
@@ -64,6 +82,7 @@ class RequirementControllerTest {
             .perform(
                 post("/api/requirements")
                     .contentType(MediaType.APPLICATION_JSON)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + generateValidJwtToken())
                     .content(objectMapper.writeValueAsString(dto)))
             .andDo(print())
             .andExpect(status().isOk())
@@ -86,6 +105,7 @@ class RequirementControllerTest {
                 .description("Original desc")
                 .priority(Priority.LOW)
                 .status(Status.OPEN)
+                .createdBy(1L)
                 .build());
 
     CreateOrUpdateRequirementDto updateDto =
@@ -117,6 +137,7 @@ class RequirementControllerTest {
                 .description("This will be deleted")
                 .priority(Priority.LOW)
                 .status(Status.OPEN)
+                .createdBy(1L)
                 .build());
 
     mockMvc

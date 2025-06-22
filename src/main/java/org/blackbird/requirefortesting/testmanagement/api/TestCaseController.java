@@ -2,6 +2,7 @@ package org.blackbird.requirefortesting.testmanagement.api;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.blackbird.requirefortesting.shared.JwtService;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
@@ -14,11 +15,16 @@ import org.springframework.web.bind.annotation.*;
 public class TestCaseController {
 
   private final TestCaseService testCaseService;
+  private static final String AUTHORIZATION_HEADER = "Authorization";
+
+  private final JwtService jwtUtil;
 
   @PostMapping
   public ResponseEntity<TestCase> createTestCase(
+      @RequestHeader(AUTHORIZATION_HEADER) String authToken,
       @RequestBody CreateOrUpdateTestCaseDto createTestCaseDto) {
-    TestCase testCase = testCaseService.createTestCase(createTestCaseDto);
+    Long userId = jwtUtil.extractUserId(authToken);
+    TestCase testCase = testCaseService.createTestCase(createTestCaseDto, userId);
     return ResponseEntity.ok(testCase);
   }
 
@@ -37,6 +43,7 @@ public class TestCaseController {
 
   @GetMapping
   public ResponseEntity<List<TestCase>> getAllTestCases() {
+
     List<TestCase> testCases = testCaseService.getAllTestCases();
     return ResponseEntity.ok(testCases);
   }

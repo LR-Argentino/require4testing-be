@@ -5,7 +5,7 @@ import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCa
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 
 public interface TestCaseService {
-  TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto);
+  TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId);
 
   void deleteTestCase(Long testCaseId);
 

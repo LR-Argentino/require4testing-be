@@ -19,10 +19,10 @@ public class TestCaseServiceImpl implements TestCaseService {
 
   @Override
   @Transactional
-  public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
+  public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
     validateTestCaseDto(createTestCaseDto);
 
-    return testCaseRepository.save(mapToTestCase(createTestCaseDto));
+    return testCaseRepository.save(mapToTestCase(createTestCaseDto, userId));
   }
 
   @Override
@@ -65,14 +65,14 @@ public class TestCaseServiceImpl implements TestCaseService {
     return testCaseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
   }
 
-  private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto) {
+  private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
     TestCase testCase =
         TestCase.builder()
             .title(createTestCaseDto.title())
             .description(createTestCaseDto.description())
             .status(createTestCaseDto.status() != null ? createTestCaseDto.status() : Status.OPEN)
             .requirementId(createTestCaseDto.requirementId())
-            .createdBy(1L) // TODO: Replace with actual user ID
+            .createdBy(userId)
             .build();
     return testCase;
   }
