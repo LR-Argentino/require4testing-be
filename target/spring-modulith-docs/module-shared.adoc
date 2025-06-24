@@ -1,0 +1,7 @@
+[%autowidth.stretch, cols="h,a"]
+|===
+|Base package
+|`org.blackbird.requirefortesting.shared`
+|Spring components
+|* `o.b.r.s.GlobalExceptionHandler`
+|===
