@@ -1,0 +1,689 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a1f35df0-9848-4aa5-85a1-ec5b67bc83e7" name="Changes" comment="add createdBy to RequirementDto" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="module-info" />
+        <option value="Spring Configuration" />
+        <option value="Enum" />
+        <option value="package-info" />
+        <option value="Record" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="8118defe3e267c967b383a1c8e8b7def49bada0d" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;LR-Argentino&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/LR-Argentino/require4testing.git&quot;,
+    &quot;accountId&quot;: &quot;484b55b5-d829-4896-b2e3-126d33a42cdc&quot;
+  }
+}</component>
+  <component name="HttpClientEndpointsTabState">
+    <option name="cachedRequestData" value="&lt;CachedHttpClientTabRequests&gt;&#10;  &lt;entry key=&quot;8b7b1a3816f19a1927b5ba006085e7d432d65cc9&quot; value=&quot;###&amp;#10;POST http://localhost:8080/api/test-cases&amp;#10;Content-Type: application/json&amp;#10;&amp;#10;{&amp;#10;  &amp;quot;title&amp;quot;: &amp;quot;Test case 1&amp;quot;,&amp;#10;  &amp;quot;description&amp;quot;: &amp;quot;&amp;quot;,&amp;#10;  &amp;quot;requirementId&amp;quot;: 1,&amp;#10;  &amp;quot;status&amp;quot;: &amp;quot;OPEN&amp;quot;&amp;#10;}&quot; /&gt;&#10;&lt;/CachedHttpClientTabRequests&gt;" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2yKhIl27IlhxLTyVoVIkTv9SlIY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "JUnit.ModularityTests.executor": "Run",
+    "JUnit.RequirementControllerIntegrationTest.executor": "Run",
+    "JUnit.RequirementControllerIntegrationTest.test_deleteRequirement_shouldRemoveFromDatabase.executor": "Run",
+    "JUnit.RequirementControllerTest.executor": "Run",
+    "JUnit.RequirementControllerTest.test_createRequirement_shouldPersistToDatabase.executor": "Run",
+    "JUnit.RequirementControllerTests.executor": "Run",
+    "JUnit.RequirementControllerTests.test_updateWithValidData_shouldUpdatedRequirement.executor": "Debug",
+    "JUnit.RequirementModuleTest.executor": "Run",
+    "JUnit.RequirementRepositoryTest.executor": "Run",
+    "JUnit.RequirementRepositoryTest.test_save_withValidRequirement_shouldSaveRequirement.executor": "Run",
+    "JUnit.RequirementRepositoryTest.test_update_shouldUpdateTimestamp.executor": "Run",
+    "JUnit.RequirementServiceCreateTests.executor": "Run",
+    "JUnit.RequirementServiceDeleteTests.executor": "Run",
+    "JUnit.RequirementServiceIntegrationTests.executor": "Run",
+    "JUnit.RequirementServiceTests.executor": "Debug",
+    "JUnit.RequirementServiceTests.test_deleteWithInvalidId_shouldThrowException.executor": "Run",
+    "JUnit.RequirementServiceTests.test_deleteWithValidId_shouldDeleteRequirement.executor": "Run",
+    "JUnit.RequirementServiceUpdateTests.executor": "Run",
+    "JUnit.RequirementsModuleTests.executor": "Run",
+    "JUnit.SecurityConfigTests.executor": "Run",
+    "JUnit.TestCaseControllerTests$EdgeCasesTests.shouldHandleVeryLongTitle.executor": "Run",
+    "JUnit.TestCaseControllerTests.executor": "Run",
+    "JUnit.TestCaseControllerTests.test_createTestCase_shouldReturn500WhenRequirementIdIsNull.executor": "Run",
+    "JUnit.TestCaseIntegrationTests.executor": "Run",
+    "JUnit.TestCaseIntegrationTests.test_createTestCase_withNegativeRequirementId_shouldThrowException.executor": "Run",
+    "JUnit.TestCaseRepositoryTests.executor": "Run",
+    "JUnit.TestCaseRepositoryTests.test_createTestCase_withNegativeRequirementId_shouldThrowException.executor": "Run",
+    "JUnit.TestCaseRepositoryTests.test_fetchTestCaseById_shouldReturnTestCaseWithTestRuns.executor": "Run",
+    "JUnit.TestCaseRepositoryTests.test_saveTestCase_shouldPersistTestCase.executor": "Run",
+    "JUnit.TestCaseServiceAddToTestRunTests.executor": "Run",
+    "JUnit.TestCaseServiceAddToTestRunTests.test_addDuplicateTestCaseToTestRun_shouldThrowException.executor": "Debug",
+    "JUnit.TestCaseServiceAddToTestRunTests.test_addTestCaseToTestRunWithNotFoundTestRun_shouldThrowException.executor": "Run",
+    "JUnit.TestCaseServiceAddToTestRunTests.test_addTestCaseToTestRun_shouldAddTestCaseToTestRun.executor": "Run",
+    "JUnit.TestCaseServiceCreateTests.executor": "Run",
+    "JUnit.TestCaseServiceDeleteTests.executor": "Run",
+    "JUnit.TestCaseServiceUpdateTests.executor": "Run",
+    "JUnit.TestControllerTests.executor": "Run",
+    "JUnit.TestManagementServiceTests.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_createTestCaseWithInvalidTitle_shouldThrowException.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_createTestCaseWithValidData_shouldReturnCreatedTestCase.executor": "Debug",
+    "JUnit.TestManagementServiceTests.test_createTestCaseWithWhiteSpaceTitle_shouldThrowException.executor": "Debug",
+    "JUnit.TestManagementServiceTests.test_updateChangeStatusToClosed_shouldReturnUpdatedTestCase.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_updateTestCaseInStatusClosed_shouldThrowException.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_updateTestCaseOnStatusOpen_shouldReturnUpdatedTestCase.executor": "Debug",
+    "JUnit.TestManagementServiceTests.test_updateTestCaseWithBlankTitle_shouldThrowException.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_updateTestCaseWithInvalidTitle_shouldThrowException.executor": "Run",
+    "JUnit.TestManagementServiceTests.test_updateTestCaseWithNull_shouldThrowException.executor": "Run",
+    "JUnit.TestRunControllerTests$AddTestCaseToTestRunTests.shouldHandleAddingSameTestCaseTwiceGracefully.executor": "Debug",
+    "JUnit.TestRunControllerTests$DeleteTestRunTests.shouldReturn400ForInvalidIdFormatInDelete.executor": "Debug",
+    "JUnit.TestRunControllerTests$EdgeCasesTests.executor": "Run",
+    "JUnit.TestRunControllerTests$EdgeCasesTests.shouldHandleVeryLongTitle.executor": "Run",
+    "JUnit.TestRunControllerTests$UpdateTestRunTests.shouldReturn400WhenUpdateDataIsInvalid.executor": "Debug",
+    "JUnit.TestRunControllerTests$UpdateTestRunTests.shouldUpdateTestRunWithValidData.executor": "Debug",
+    "JUnit.TestRunControllerTests.executor": "Run",
+    "JUnit.TestRunIntegrationTests.executor": "Run",
+    "JUnit.TestRunServiceAddToTestCaseTests.executor": "Run",
+    "JUnit.TestRunServiceCreateTests.executor": "Run",
+    "JUnit.TestRunServiceCreateTests.test_createTestRunWithEndDateSetInPast_shouldThrowException.executor": "Debug",
+    "JUnit.TestRunServiceCreateTests.test_createTestRunWithValidData_shouldHaveStatusPlanned.executor": "Debug",
+    "JUnit.TestRunServiceDeleteTests.executor": "Run",
+    "JUnit.TestRunServiceUpdateTests.executor": "Run",
+    "JUnit.TestRunServiceUpdateTests.test_updateTestRunWithInvalidDate_shouldThrowException.executor": "Debug",
+    "JUnit.TestRunServiceUpdateTests.test_updateTestRunWithStartDateInPast_shouldThrowException.executor": "Run",
+    "JUnit.UserControllerTests.executor": "Run",
+    "JUnit.UserControllerTests.testGetUser.executor": "Run",
+    "Java Scratch.Scratch.executor": "Run",
+    "Maven.requirefortesting [clean,install].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Spring Boot.RequirefortestingApplication.executor": "Run",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/Users/lucaargentino/IdeaProjects/require4testing/src/test",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "swagger",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "JAVA"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/backend" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.blackbird.requirefortesting.shared" />
+      <recent name="org.blackbird.requirefortesting.requirements.repository" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.blackbird.requirefortesting.testmanagement.unit" />
+      <recent name="org.blackbird.requirefortesting.testmanagement.integration" />
+      <recent name="org.blackbird.requirefortesting.testmanagement.service" />
+      <recent name="org.blackbird.requirefortesting.requirements.service" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.TestRunControllerTests">
+    <configuration name="RequirementControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="requirefortesting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.blackbird.requirefortesting.requirements.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.blackbird.requirefortesting.requirements.api" />
+      <option name="MAIN_CLASS_NAME" value="org.blackbird.requirefortesting.requirements.api.RequirementControllerTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RequirementControllerTest.test_createRequirement_shouldPersistToDatabase" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="requirefortesting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.blackbird.requirefortesting.requirements.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.blackbird.requirefortesting.requirements.api" />
+      <option name="MAIN_CLASS_NAME" value="org.blackbird.requirefortesting.requirements.api.RequirementControllerTest" />
+      <option name="METHOD_NAME" value="test_createRequirement_shouldPersistToDatabase" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RequirementServiceIntegrationTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="requirefortesting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.blackbird.requirefortesting.requirements.integration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.blackbird.requirefortesting.requirements.integration" />
+      <option name="MAIN_CLASS_NAME" value="org.blackbird.requirefortesting.requirements.integration.RequirementServiceIntegrationTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestCaseControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="requirefortesting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.blackbird.requirefortesting.testmanagement.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.blackbird.requirefortesting.testmanagement.api" />
+      <option name="MAIN_CLASS_NAME" value="org.blackbird.requirefortesting.testmanagement.api.TestCaseControllerTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestRunControllerTests" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="requirefortesting" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.blackbird.requirefortesting.testmanagement.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="org.blackbird.requirefortesting.testmanagement.api" />
+      <option name="MAIN_CLASS_NAME" value="org.blackbird.requirefortesting.testmanagement.api.TestRunControllerTests" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RequirefortestingApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="requirefortesting" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.blackbird.requirefortesting.RequirefortestingApplication" />
+      <option name="VM_PARAMETERS" value="--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.RequirementControllerTest" />
+      <item itemvalue="JUnit.RequirementControllerTest.test_createRequirement_shouldPersistToDatabase" />
+      <item itemvalue="JUnit.TestCaseControllerTests" />
+      <item itemvalue="JUnit.TestRunControllerTests" />
+      <item itemvalue="JUnit.RequirementServiceIntegrationTests" />
+      <item itemvalue="Spring Boot.RequirefortestingApplication" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.RequirementServiceIntegrationTests" />
+        <item itemvalue="JUnit.TestRunControllerTests" />
+        <item itemvalue="JUnit.TestCaseControllerTests" />
+        <item itemvalue="JUnit.RequirementControllerTest.test_createRequirement_shouldPersistToDatabase" />
+        <item itemvalue="JUnit.RequirementControllerTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StructuralSearchPlugin">
+    <searchConfiguration name="CreateOrUpdateRequirementDto createRequi…" created="1750583397037" uuid="db4b32bb-b2a1-36a8-a896-0d91c20dad28" text="CreateOrUpdateRequirementDto createRequirement =&#10;        new CreateOrUpdateRequirementDto(title, description, null, null);" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+    <replaceConfiguration name="CreateOrUpdateRequirementDto createRequi…" created="1750583337685" uuid="db4b32bb-b2a1-36a8-a896-0d91c20dad28" text="CreateOrUpdateRequirementDto createRequirement =&#10;        new CreateOrUpdateRequirementDto(title, description, priority, null);&#10;" recursive="false" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="true" replacement="CreateOrUpdateRequirementDto createRequirement =&#10;        new CreateOrUpdateRequirementDto(title, description, priority, null, 1L);" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </replaceConfiguration>
+    <searchConfiguration name="CreateOrUpdateRequirementDto createRequi…" created="1750583317529" uuid="db4b32bb-b2a1-36a8-a896-0d91c20dad28" text="CreateOrUpdateRequirementDto createRequirement =&#10;        new CreateOrUpdateRequirementDto(title, description, priority, null);&#10;" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="CreateOrUpdateRequirementDto createRequi…" created="1750583271317" uuid="db4b32bb-b2a1-36a8-a896-0d91c20dad28" text="CreateOrUpdateRequirementDto createRequirement =&#10;        new CreateOrUpdateRequirementDto(title, description, priority, null);" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="new CreateOrUpdateRequirementDto($A$, $B…" created="1750583205999" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new CreateOrUpdateRequirementDto($A$, $B$, $C$)&#10;        " recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="new CreateOrUpdateRequirementDto($A$, $B…" created="1750583149070" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new CreateOrUpdateRequirementDto($A$, $B$, $C$)" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="DIRECTORY" scope_descriptor="*/Users/lucaargentino/IdeaProjects/require4testing/src/test" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="new CreateOrUpdateRequirementDto($A$, $B…" created="1750583139488" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new CreateOrUpdateRequirementDto($A$, $B$, $C$, $D$)" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="DIRECTORY" scope_descriptor="*/Users/lucaargentino/IdeaProjects/require4testing/src/test" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+      <constraint name="D" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="new org.blackbird.requirefortesting.requ…" created="1750583058296" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto($A$, $B$, $C$)" recursive="true" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="DIRECTORY" scope_descriptor="*/Users/lucaargentino/IdeaProjects/require4testing/src/test" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+    </searchConfiguration>
+    <replaceConfiguration name="new org.blackbird.requirefortesting.requ…" created="1750583035408" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto($A$, $B$, $C$)" recursive="false" caseInsensitive="true" type="JAVA" pattern_context="default" scope_type="PROJECT" scope_descriptor="" reformatAccordingToStyle="true" shortenFQN="true" replacement="new org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto($A$, $B$, $C$)" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+    </replaceConfiguration>
+    <searchConfiguration name="new org.blackbird.requirefortesting.requ…" created="1750582941669" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="new org.blackbird.requirefortesting.requirements.model.CreateOrUpdateRequirementDto($A$, $B$, $C$, $D$)" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="MODULE" scope_descriptor="requirefortesting" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="A" within="" contains="" />
+      <constraint name="B" within="" contains="" />
+      <constraint name="C" within="" contains="" />
+      <constraint name="D" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="void $testName$() {&#10;    $statements$;&#10;}…" created="1750582854747" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="void $testName$() {&#10;    $statements$;&#10;}&#10;" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="MODULE" scope_descriptor="requirefortesting" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="testName" within="" contains="" />
+      <constraint name="statements" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="class $classne$ {&#10;    &#10;}" created="1750582854747" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="class $classne$ {&#10;    &#10;}" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="MODULE" scope_descriptor="requirefortesting" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="classne" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="$obj$.getTitle()" created="1750582854747" uuid="db231ec3-9f2c-34d5-ad1d-e0abfc8970d9" text="$obj$.getTitle()" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="MODULE" scope_descriptor="requirefortesting" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="obj" within="" contains="" />
+    </searchConfiguration>
+    <searchConfiguration name="@Service&#10;class $className$ implements $i…" created="1750582854747" uuid="68700d01-4a56-3442-880d-7a8c0d121c7f" text="@Service&#10;class $className$ implements $interface$ {&#10;    $content$&#10;}" recursive="true" caseInsensitive="false" type="JAVA" pattern_context="default" scope_type="MODULE" scope_descriptor="requirefortesting" history="1">
+      <constraint name="__context__" within="" contains="" />
+      <constraint name="className" within="" contains="" />
+      <constraint name="interface" within="" contains="" />
+      <constraint name="content" within="" contains="" />
+    </searchConfiguration>
+  </component>
+  <component name="StructureViewState">
+    <option name="selectedTab" value="Physical" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="a1f35df0-9848-4aa5-85a1-ec5b67bc83e7" name="Changes" comment="" />
+      <created>1749589094246</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1749589094246</updated>
+      <workItem from="1749589095330" duration="1208000" />
+      <workItem from="1749626238698" duration="1287000" />
+      <workItem from="1749627539109" duration="4243000" />
+      <workItem from="1749635448869" duration="8603000" />
+      <workItem from="1749647599617" duration="44383000" />
+      <workItem from="1749832801631" duration="21452000" />
+      <workItem from="1749967204318" duration="13941000" />
+      <workItem from="1749997731572" duration="7516000" />
+      <workItem from="1750101769046" duration="2211000" />
+      <workItem from="1750142233168" duration="3266000" />
+      <workItem from="1750235491711" duration="3475000" />
+      <workItem from="1750242006114" duration="8155000" />
+      <workItem from="1750251411029" duration="9422000" />
+      <workItem from="1750310959431" duration="5466000" />
+      <workItem from="1750341989845" duration="226000" />
+      <workItem from="1750342229964" duration="5585000" />
+      <workItem from="1750422398393" duration="375000" />
+      <workItem from="1750423161667" duration="24436000" />
+      <workItem from="1750501364108" duration="5870000" />
+      <workItem from="1750524189377" duration="32453000" />
+      <workItem from="1750776074743" duration="79000" />
+      <workItem from="1750776293393" duration="70000" />
+      <workItem from="1750776469085" duration="31000" />
+      <workItem from="1750778780872" duration="181000" />
+      <workItem from="1750827859767" duration="27000" />
+      <workItem from="1750929530239" duration="1020000" />
+    </task>
+    <task id="LOCAL-00001" summary="spring modulith basic setup">
+      <option name="closed" value="true" />
+      <created>1749628082296</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1749628082296</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add spring SecurityConfig and use in-memory approach for simplicity">
+      <option name="closed" value="true" />
+      <created>1749645479082</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1749645479082</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implement first green test and create DTO">
+      <option name="closed" value="true" />
+      <created>1749655738264</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1749655738264</updated>
+    </task>
+    <task id="LOCAL-00004" summary="refactor: update CreateRequirementDto to use Priority type and enhance RequirementService implementation with validation">
+      <option name="closed" value="true" />
+      <created>1749673207262</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1749673207262</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor: remove null priority check in RequirementService and set default to LOW">
+      <option name="closed" value="true" />
+      <created>1749674150472</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1749674150472</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: implement RequirementController and associated tests for requirement creation">
+      <option name="closed" value="true" />
+      <created>1749676621234</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1749676621234</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: add updateRequirement method and associated tests in RequirementService">
+      <option name="closed" value="true" />
+      <created>1749736246742</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1749736246742</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: add updateRequirement method and associated tests in RequirementService">
+      <option name="closed" value="true" />
+      <created>1749736948658</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1749736948658</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: add updateRequirement endpoint and update application configuration">
+      <option name="closed" value="true" />
+      <created>1749739663650</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1749739663650</updated>
+    </task>
+    <task id="LOCAL-00010" summary="refactor: remove unused H2 database dependency and clean up test cases">
+      <option name="closed" value="true" />
+      <created>1749913574583</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1749913574583</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Merge remote-tracking branch 'origin/master'">
+      <option name="closed" value="true" />
+      <created>1749914040789</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1749914040789</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Merge remote-tracking branch 'origin/master'">
+      <option name="closed" value="true" />
+      <created>1749914174633</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1749914174633</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Rename CreateTestCaseDto to CreateOrUpdateTestCaseDto and update related methods for improved clarity and functionality">
+      <option name="closed" value="true" />
+      <created>1749936058131</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1749936058131</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Add TestRun and CreateTestRunDto classes, update service and repository interfaces for test run management and remove public accessor from tests">
+      <option name="closed" value="true" />
+      <created>1749980521690</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1749980521690</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Implement update functionality for TestRunService and add validation logic; enhance ModularityTests with documentation generation">
+      <option name="closed" value="true" />
+      <created>1750142798820</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1750142798820</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Add tests for adding TestCase to TestRun and implement validation in TestCaseService">
+      <option name="closed" value="true" />
+      <created>1750245455254</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1750245455254</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Add tests for adding TestCase to TestRun and implement validation in TestCaseService">
+      <option name="closed" value="true" />
+      <created>1750245741763</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1750245741763</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Merge remote-tracking branch 'origin/feature/REQ-11' into feature/REQ-11">
+      <option name="closed" value="true" />
+      <created>1750248947456</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1750248947456</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Merge pull request #11 from LR-Argentino/feature/REQ-11&#10;&#10;Feature/req 11">
+      <option name="closed" value="true" />
+      <created>1750248993057</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1750248993057</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add delete method to TestRunService and corresponding tests">
+      <option name="closed" value="true" />
+      <created>1750256712277</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1750256712278</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Add delete method to TestRunService and corresponding tests">
+      <option name="closed" value="true" />
+      <created>1750256983472</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1750256983472</updated>
+    </task>
+    <task id="LOCAL-00022" summary="&#10;- Improve integration tests with comprehensive validation and edge cases&#10;- Add @Transactional for test isolation and automatic rollback&#10;- Replace hardcoded IDs with dynamic test data setup using @BeforeEach&#10;- Implement proper null-checks with orElseThrow() for better error messages&#10;- Add 9 comprehensive edge case tests covering invalid inputs  &#10;- Remove debug output and improve test maintainability  &#10;- Add validation for negative requirement IDs in TestCaseServiceImpl    &#10;- Restructure test data setup for better reusability">
+      <option name="closed" value="true" />
+      <created>1750260876814</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1750260876814</updated>
+    </task>
+    <task id="LOCAL-00023" summary="add TestCase-integration test and annotate curd methods with transactional">
+      <option name="closed" value="true" />
+      <created>1750429585512</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1750429585512</updated>
+    </task>
+    <task id="LOCAL-00024" summary="add status field to CreateOrUpdateRequirementDto and implement getRequirements method in RequirementService">
+      <option name="closed" value="true" />
+      <created>1750488812612</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1750488812612</updated>
+    </task>
+    <task id="LOCAL-00025" summary="add status field to CreateOrUpdateRequirementDto and implement getRequirements method in RequirementService">
+      <option name="closed" value="true" />
+      <created>1750489760530</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1750489760530</updated>
+    </task>
+    <task id="LOCAL-00026" summary="add TestCase and TestRun controllers and services with CRUD operations and add transactional readonly true for performance optimisation">
+      <option name="closed" value="true" />
+      <created>1750523657700</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1750523657700</updated>
+    </task>
+    <task id="LOCAL-00027" summary="implement authentication and user management with JWT support">
+      <option name="closed" value="true" />
+      <created>1750574714718</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1750574714718</updated>
+    </task>
+    <task id="LOCAL-00028" summary="- use DRY on AuthController and seperate concern of Exceptionhandling.&#10;- get secret from configuration file and remove random generated secret by every restart for session robustness&#10;- add jwt filter and removed http basic">
+      <option name="closed" value="true" />
+      <created>1750575992536</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1750575992536</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add createdBy to RequirementDto">
+      <option name="closed" value="true" />
+      <created>1750930011130</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1750930011130</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge pull request #1 from LR-Argentino/feature/REQ-29&#10;&#10;spring modulith basic setup" />
+    <MESSAGE value="add spring SecurityConfig and use in-memory approach for simplicity" />
+    <MESSAGE value="implement first green test and create DTO" />
+    <MESSAGE value="refactor: update CreateRequirementDto to use Priority type and enhance RequirementService implementation with validation" />
+    <MESSAGE value="refactor: remove null priority check in RequirementService and set default to LOW" />
+    <MESSAGE value="Merge pull request #3 from LR-Argentino/feature/REQ-2&#10;&#10;Feature/req 2" />
+    <MESSAGE value="feat: implement RequirementController and associated tests for requirement creation" />
+    <MESSAGE value="feat: add updateRequirement method and associated tests in RequirementService" />
+    <MESSAGE value="feat: add updateRequirement endpoint and update application configuration" />
+    <MESSAGE value="refactor: remove unused H2 database dependency and clean up test cases" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'" />
+    <MESSAGE value="Rename CreateTestCaseDto to CreateOrUpdateTestCaseDto and update related methods for improved clarity and functionality" />
+    <MESSAGE value="Add TestRun and CreateTestRunDto classes, update service and repository interfaces for test run management and remove public accessor from tests" />
+    <MESSAGE value="Implement update functionality for TestRunService and add validation logic; enhance ModularityTests with documentation generation" />
+    <MESSAGE value="Add tests for adding TestCase to TestRun and implement validation in TestCaseService" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/feature/REQ-11' into feature/REQ-11" />
+    <MESSAGE value="Merge pull request #11 from LR-Argentino/feature/REQ-11&#10;&#10;Feature/req 11" />
+    <MESSAGE value="Add delete method to TestRunService and corresponding tests" />
+    <MESSAGE value="&#10;- Improve integration tests with comprehensive validation and edge cases&#10;- Add @Transactional for test isolation and automatic rollback&#10;- Replace hardcoded IDs with dynamic test data setup using @BeforeEach&#10;- Implement proper null-checks with orElseThrow() for better error messages&#10;- Add 9 comprehensive edge case tests covering invalid inputs  &#10;- Remove debug output and improve test maintainability  &#10;- Add validation for negative requirement IDs in TestCaseServiceImpl    &#10;- Restructure test data setup for better reusability" />
+    <MESSAGE value="add TestCase-integration test and annotate curd methods with transactional" />
+    <MESSAGE value="add status field to CreateOrUpdateRequirementDto and implement getRequirements method in RequirementService" />
+    <MESSAGE value="add TestCase and TestRun controllers and services with CRUD operations and add transactional readonly true for performance optimisation" />
+    <MESSAGE value="implement authentication and user management with JWT support" />
+    <MESSAGE value="- use DRY on AuthController and seperate concern of Exceptionhandling.&#10;- get secret from configuration file and remove random generated secret by every restart for session robustness&#10;- add jwt filter and removed http basic" />
+    <MESSAGE value="add createdBy to RequirementDto" />
+    <option name="LAST_COMMIT_MESSAGE" value="add createdBy to RequirementDto" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
