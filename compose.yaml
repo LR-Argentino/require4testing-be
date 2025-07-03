@@ -1,4 +1,14 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - 'DATABASE_URL=postgresql://myuser:secret@postgres:5432/requirefortesting'
+    ports:
+      - '8000:8000'
+    depends_on:
+      - postgres
   postgres:
     image: 'postgres:latest'
     environment:
@@ -7,3 +17,5 @@ services:
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432:5432'
+
+

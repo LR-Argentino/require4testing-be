@@ -1,0 +1,289 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+replay_pid*
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# https://github.com/takari/maven-wrapper#usage-without-binary-jar
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse m2e generated files
+# Eclipse Core
+.project
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Local History for Visual Studio Code
+.history/
+
+### Spring Boot ###
+spring-boot-*.log
+application-*.yml
+application-*.yaml
+application-*.properties
+!application.yaml
+!application.yml
+!application.properties
+!application-docker.yaml
+
+### OS ###
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+### Database ###
+*.db
+*.sqlite
+*.sqlite3
+h2/
+database/
+data/
+
+### PostgreSQL ###
+postgres-data/
+postgresql/
+*.sql
+*.backup
+
+### Docker ###
+# Docker Compose overrides
+docker-compose.override.yml
+docker-compose.override.yaml
+docker-compose.*.yml
+docker-compose.*.yaml
+!docker-compose.yml
+!docker-compose.yaml
+
+# Docker volumes
+postgres_data/
+db_data/
+
+### Testcontainers ###
+.testcontainers/
+testcontainers.properties
+
+### Logs ###
+logs/
+*.log
+*.log.*
+*.out
+
+### Temporary files ###
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+### Build tools ###
+.gradle/
+build/
+.gradletasknamecache
+
+### GraalVM ###
+# Native Image build artifacts
+*.so
+*.dylib
+*.dll
+native-image/
+graal/
+substrate/
+
+### Spring Boot DevTools ###
+.spring-boot-devtools.properties
+
+### Environment files ###
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+### Security ###
+*.key
+*.pem
+*.p12
+*.jks
+secrets/
+private/
+
+### Coverage reports ###
+*.exec
+jacoco/
+coverage/
+.nyc_output/
+
+### Node.js (falls Frontend hinzukommt) ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+### Generated files ###
+generated/
+**/generated/**
+target/generated-sources/
+target/generated-test-sources/
+
+### Application specific ###
+# Spring Boot Actuator
+dump.rdb
+
+# H2 Database files
+*.h2.db
+*.trace.db
+
+# Flyway
+*.flywaydb
+
+# Liquibase
+*liquibase*
+
+### JRebel ###
+rebel.xml
+
+### JProfiler ###
+*.jprofiler
+
+### YourKit ###
+*.snapshots
+
+### JMX ###
+*.hprof
+
+### Backup files ###
+*.bak
+*.backup
+*~
+
+### Archive files ###
+*.7z
+*.dmg
+*.gz
+*.iso
+*.rar
+*.tar
+*.zip
+
+### JetBrains ###
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
+.idea/
+*.iml
+*.ipr
+*.iws
+.idea_modules/
+atlassian-ide-plugin.xml
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+### STS ###
+.metadata
+.recommenders
