@@ -1,26 +1,26 @@
 # Multi-stage build für optimierte Image-Größe
-FROM ghcr.io/graalvm/graalvm-ce:24-ol9 AS builder
+FROM ghcr.io/graalvm/jdk-community:24.0.1 AS builder
+
+# Maven installieren
+RUN microdnf install -y maven && microdnf clean all
 
 # Arbeitsverzeichnis setzen
 WORKDIR /app
 
-# Maven Wrapper und pom.xml kopieren für besseres Caching
-COPY mvnw .
-COPY mvnw.cmd .
-COPY .mvn .mvn
+# pom.xml kopieren für besseres Caching
 COPY pom.xml .
 
 # Dependencies herunterladen (wird gecacht, solange sich pom.xml nicht ändert)
-RUN ./mvnw dependency:go-offline -B
+RUN mvn dependency:go-offline -B
 
 # Source Code kopieren
 COPY src src
 
 # Application bauen (Tests überspringen für schnelleres Build)
-RUN ./mvnw clean package -DskipTests -B
+RUN mvn clean package -DskipTests -B
 
 # Runtime Stage - kleineres Image
-FROM ghcr.io/graalvm/graalvm-ce:24-ol9
+FROM ghcr.io/graalvm/jdk-community:24.0.1
 
 # Curl für Health Check installieren
 RUN microdnf install -y curl && microdnf clean all

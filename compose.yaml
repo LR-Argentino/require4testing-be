@@ -5,17 +5,29 @@ services:
       dockerfile: Dockerfile
     environment:
       - 'DATABASE_URL=postgresql://myuser:secret@postgres:5432/requirefortesting'
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/requirefortesting'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+      - 'SPRING_JPA_HIBERNATE_DDL_AUTO=update'
+      - 'SPRING_PROFILES_ACTIVE=docker'
+      - 'SPRING_JPA_SHOW_SQL=false'
     ports:
-      - '8000:8000'
+      - '8080:8080'
     depends_on:
       - postgres
+
   postgres:
-    image: 'postgres:latest'
+    image: 'postgres:15'
     environment:
       - 'POSTGRES_DB=requirefortesting'
       - 'POSTGRES_PASSWORD=secret'
       - 'POSTGRES_USER=myuser'
     ports:
       - '5432:5432'
+    volumes:
+      #      - postgres_data:/var/lib/postgresql/data
+      - ./src/main/resources/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./src/main/resources/init.sql:/docker-entrypoint-initdb.d/02-init.sql
 
-
+volumes:
+  postgres_data:
