@@ -38,7 +38,7 @@ jobs:
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
         
     - name: Run all tests (Service + Repository with Testcontainers)
-      run: ./mvnw clean test
+      run: mvn clean test
   
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
