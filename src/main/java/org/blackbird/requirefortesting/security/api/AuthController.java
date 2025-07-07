@@ -45,7 +45,7 @@ public class AuthController {
     return ResponseEntity.ok(new AuthResponseDto("Logged out successfully"));
   }
 
-  private AuthResponseDto createSuccessResponse(String jwt, User user) {
+  private static AuthResponseDto createSuccessResponse(String jwt, User user) {
     return new AuthResponseDto(
         jwt,
         user.getUsername(),

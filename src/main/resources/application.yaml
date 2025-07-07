@@ -2,7 +2,6 @@ spring:
   application:
     name: requirefortesting
 
-
   datasource:
     name: requirefortesting
     url: "jdbc:postgresql://localhost:5432/requirefortesting"
@@ -20,3 +19,6 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  docker:
+    compose:
+      lifecycle-management: none
