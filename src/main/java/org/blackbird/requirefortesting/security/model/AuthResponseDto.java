@@ -5,7 +5,7 @@ public record AuthResponseDto(String token, String username, String[] roles, Str
     this(null, null, null, message);
   }
 
-  public AuthResponseDto(String token, String username, String[] roles) {
+  public AuthResponseDto(String token, String username, String email, String[] roles) {
     this(token, username, roles, null);
   }
 }

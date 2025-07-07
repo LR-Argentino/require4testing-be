@@ -49,6 +49,7 @@ public class AuthController {
     return new AuthResponseDto(
         jwt,
         user.getUsername(),
+        user.getEmail(),
         user.getAuthorities().stream()
             .map(authority -> authority.getAuthority())
             .toArray(String[]::new));
