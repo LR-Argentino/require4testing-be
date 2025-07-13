@@ -9,7 +9,6 @@ import org.blackbird.requirefortesting.requirements.model.Requirement;
 import org.blackbird.requirefortesting.requirements.service.RequirementService;
 import org.blackbird.requirefortesting.shared.Priority;
 import org.blackbird.requirefortesting.shared.Status;
-import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class RequirementServiceImpl implements RequirementService {
 
   private final RequirementRepository requirementRepository;
-  private final TestCaseRepository testCaseRepository;
 
   @Override
   @Transactional
@@ -59,11 +57,6 @@ public class RequirementServiceImpl implements RequirementService {
   @Transactional
   public void deleteRequirement(Long id) {
     Requirement requirement = getRequirement(id);
-
-    if (testCaseRepository.existsByRequirementId(id)) {
-      throw new IllegalStateException("Cannot delete requirement that has associated test cases");
-    }
-
     requirementRepository.delete(requirement);
   }
 

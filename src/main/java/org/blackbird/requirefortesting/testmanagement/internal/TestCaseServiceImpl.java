@@ -61,7 +61,7 @@ public class TestCaseServiceImpl implements TestCaseService {
   @Override
   @Transactional(readOnly = true)
   public List<TestCaseDto> getAllTestCases() {
-    return testCaseRepository.findAll().stream().map(this::mapToDto).toList();
+    return testCaseRepository.findAll().stream().map(TestCaseServiceImpl::mapToDto).toList();
   }
 
   @Override
@@ -78,23 +78,21 @@ public class TestCaseServiceImpl implements TestCaseService {
       throw new IllegalArgumentException("Requirement case ID cannot be null or negative");
     }
     return testCaseRepository.findTestCasesByRequirementId(requirementId).stream()
-        .map(this::mapToDto)
+        .map(TestCaseServiceImpl::mapToDto)
         .toList();
   }
 
-  private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
-    TestCase testCase =
-        TestCase.builder()
-            .title(createTestCaseDto.title())
-            .description(createTestCaseDto.description())
-            .status(createTestCaseDto.status() != null ? createTestCaseDto.status() : Status.OPEN)
-            .requirementId(createTestCaseDto.requirementId())
-            .createdBy(userId)
-            .build();
-    return testCase;
+  private static TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
+    return TestCase.builder()
+        .title(createTestCaseDto.title())
+        .description(createTestCaseDto.description())
+        .status(createTestCaseDto.status() != null ? createTestCaseDto.status() : Status.OPEN)
+        .requirementId(createTestCaseDto.requirementId())
+        .createdBy(userId)
+        .build();
   }
 
-  private void validateTestCaseDto(CreateOrUpdateTestCaseDto testCaseDto) {
+  private static void validateTestCaseDto(CreateOrUpdateTestCaseDto testCaseDto) {
     if (testCaseDto == null) {
       throw new IllegalArgumentException("UpdateTestCaseDto cannot be null");
     }
@@ -109,7 +107,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
   }
 
-  private void updateTestCase(
+  private static void updateTestCase(
       TestCase existingTestCase, CreateOrUpdateTestCaseDto updateTestCaseDto) {
 
     if (updateTestCaseDto.title() != null) {
@@ -129,7 +127,7 @@ public class TestCaseServiceImpl implements TestCaseService {
     }
   }
 
-  private TestCaseDto mapToDto(TestCase testCase) {
+  private static TestCaseDto mapToDto(TestCase testCase) {
     return TestCaseDto.builder()
         .id(testCase.getId())
         .title(testCase.getTitle())
