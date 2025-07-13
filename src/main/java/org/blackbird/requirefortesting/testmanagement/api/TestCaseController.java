@@ -4,7 +4,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.shared.JwtService;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
-import org.blackbird.requirefortesting.testmanagement.model.TestCase;
+import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,11 +20,11 @@ public class TestCaseController {
   private final JwtService jwtUtil;
 
   @PostMapping
-  public ResponseEntity<TestCase> createTestCase(
+  public ResponseEntity<TestCaseDto> createTestCase(
       @RequestHeader(AUTHORIZATION_HEADER) String authToken,
       @RequestBody CreateOrUpdateTestCaseDto createTestCaseDto) {
     Long userId = jwtUtil.extractUserId(authToken);
-    TestCase testCase = testCaseService.createTestCase(createTestCaseDto, userId);
+    TestCaseDto testCase = testCaseService.createTestCase(createTestCaseDto, userId);
     return ResponseEntity.ok(testCase);
   }
 
@@ -35,22 +35,32 @@ public class TestCaseController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TestCase> updateTestCase(
+  public ResponseEntity<TestCaseDto> updateTestCase(
       @PathVariable Long id, @RequestBody CreateOrUpdateTestCaseDto updateTestCaseDto) {
-    TestCase updatedTestCase = testCaseService.updateTestCase(id, updateTestCaseDto);
+    TestCaseDto updatedTestCase = testCaseService.updateTestCase(id, updateTestCaseDto);
     return ResponseEntity.ok(updatedTestCase);
   }
 
   @GetMapping
-  public ResponseEntity<List<TestCase>> getAllTestCases() {
+  public ResponseEntity<List<TestCaseDto>> getAllTestCases() {
 
-    List<TestCase> testCases = testCaseService.getAllTestCases();
+    List<TestCaseDto> testCases = testCaseService.getAllTestCases();
     return ResponseEntity.ok(testCases);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<TestCase> getTestCase(@PathVariable Long id) {
-    TestCase testCase = testCaseService.getTestCase(id);
+  public ResponseEntity<TestCaseDto> getTestCase(@PathVariable Long id) {
+    TestCaseDto testCase = testCaseService.getTestCase(id);
     return ResponseEntity.ok(testCase);
+  }
+
+  @GetMapping("/requirement/{requirementId}")
+  public ResponseEntity<List<TestCaseDto>> getTestCasesByRequirementId(
+      @PathVariable Long requirementId) {
+    List<TestCaseDto> testCases = testCaseService.getTestCasesByRequirementId(requirementId);
+    if (testCases.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok(testCases);
   }
 }

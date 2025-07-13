@@ -7,6 +7,7 @@ import org.blackbird.requirefortesting.shared.Status;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
+import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,26 +20,29 @@ public class TestCaseServiceImpl implements TestCaseService {
 
   @Override
   @Transactional
-  public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
+  public TestCaseDto createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
     validateTestCaseDto(createTestCaseDto);
+    TestCase savedTestCase = testCaseRepository.save(mapToTestCase(createTestCaseDto, userId));
 
-    return testCaseRepository.save(mapToTestCase(createTestCaseDto, userId));
+    return mapToDto(savedTestCase);
   }
 
   @Override
   @Transactional
-  public TestCase updateTestCase(Long testCaseId, CreateOrUpdateTestCaseDto updateTestCaseDto) {
+  public TestCaseDto updateTestCase(Long testCaseId, CreateOrUpdateTestCaseDto updateTestCaseDto) {
     validateTestCaseDto(updateTestCaseDto);
 
-    TestCase testCaseFromDb = getTestCase(testCaseId);
+    TestCase testCaseFromDb =
+        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
 
     if (testCaseFromDb.getStatus() == Status.CLOSED) {
       throw new IllegalArgumentException("Cannot update a closed test case");
     }
 
     updateTestCase(testCaseFromDb, updateTestCaseDto);
+    TestCase savedTestCase = testCaseRepository.save(testCaseFromDb);
 
-    return testCaseRepository.save(testCaseFromDb);
+    return mapToDto(savedTestCase);
   }
 
   @Override
@@ -48,21 +52,34 @@ public class TestCaseServiceImpl implements TestCaseService {
       throw new IllegalArgumentException("Test case ID cannot be null or negative");
     }
 
-    TestCase testCaseFromDb = getTestCase(testCaseId);
+    TestCase testCaseFromDb =
+        testCaseRepository.findById(testCaseId).orElseThrow(EntityNotFoundException::new);
 
     testCaseRepository.delete(testCaseFromDb);
   }
 
   @Override
   @Transactional(readOnly = true)
-  public List<TestCase> getAllTestCases() {
-    return testCaseRepository.findAll();
+  public List<TestCaseDto> getAllTestCases() {
+    return testCaseRepository.findAll().stream().map(this::mapToDto).toList();
   }
 
   @Override
   @Transactional(readOnly = true)
-  public TestCase getTestCase(Long id) {
-    return testCaseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+  public TestCaseDto getTestCase(Long id) {
+    TestCase testCase = testCaseRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+    return mapToDto(testCase);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public List<TestCaseDto> getTestCasesByRequirementId(Long requirementId) {
+    if (requirementId == null || requirementId <= 0) {
+      throw new IllegalArgumentException("Requirement case ID cannot be null or negative");
+    }
+    return testCaseRepository.findTestCasesByRequirementId(requirementId).stream()
+        .map(this::mapToDto)
+        .toList();
   }
 
   private TestCase mapToTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
@@ -110,5 +127,19 @@ public class TestCaseServiceImpl implements TestCaseService {
     if (updateTestCaseDto.requirementId() != null) {
       existingTestCase.setRequirementId(updateTestCaseDto.requirementId());
     }
+  }
+
+  private TestCaseDto mapToDto(TestCase testCase) {
+    return TestCaseDto.builder()
+        .id(testCase.getId())
+        .title(testCase.getTitle())
+        .description(testCase.getDescription())
+        .requirementId(testCase.getRequirementId())
+        .status(testCase.getStatus())
+        .testResult(testCase.getTestResult())
+        .createdBy(testCase.getCreatedBy())
+        .updatedAt(testCase.getUpdatedAt())
+        .creationDate(testCase.getCreationDate())
+        .build();
   }
 }

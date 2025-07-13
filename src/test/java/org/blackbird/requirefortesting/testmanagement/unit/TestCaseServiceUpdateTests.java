@@ -11,6 +11,7 @@ import org.blackbird.requirefortesting.testmanagement.internal.TestCaseServiceIm
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
+import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -120,9 +121,9 @@ class TestCaseServiceUpdateTests {
     CreateOrUpdateTestCaseDto updateTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
-    TestCase result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+    TestCaseDto result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
 
-    assertEquals(validTitle, result.getTitle());
+    assertEquals(validTitle, result.title());
   }
 
   @Test
@@ -159,8 +160,8 @@ class TestCaseServiceUpdateTests {
     CreateOrUpdateTestCaseDto updateTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
-    TestCase result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
+    TestCaseDto result = testManagementService.updateTestCase(testCaseId, updateTestCaseDto);
 
-    assertEquals(status, result.getStatus());
+    assertEquals(status, result.status());
   }
 }
