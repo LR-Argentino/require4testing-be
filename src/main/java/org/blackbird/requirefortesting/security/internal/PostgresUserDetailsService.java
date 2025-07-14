@@ -1,11 +1,16 @@
 package org.blackbird.requirefortesting.security.internal;
 
+import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.security.internal.repository.UserRepository;
 import org.blackbird.requirefortesting.security.model.CreateUserDto;
 import org.blackbird.requirefortesting.security.model.User;
+import org.blackbird.requirefortesting.security.model.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +41,26 @@ public class PostgresUserDetailsService implements UserDetailsService {
         .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
   }
 
+  @Transactional(readOnly = true)
+  public List<UserDto> getAllUsers() {
+    return userRepository.findAll().stream().map(PostgresUserDetailsService::mapToUserDto).toList();
+  }
+
+  @Transactional(readOnly = true)
+  public Map<Long, UserDto> getUsersByIds(Set<Long> userIds) {
+    List<User> users = userRepository.findAllById(userIds);
+    Map<Long, UserDto> userMap =
+        users.stream()
+            .collect(Collectors.toMap(User::getId, PostgresUserDetailsService::mapToUserDto));
+    return userMap;
+  }
+
+  @Transactional(readOnly = true)
+  public UserDto getUserById(Long userId) {
+    User user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
+    return mapToUserDto(user);
+  }
+
   @Transactional
   public User registerUser(CreateUserDto createUserDto) {
     Optional<User> existingUserByUsername =
@@ -61,5 +86,13 @@ public class PostgresUserDetailsService implements UserDetailsService {
             .build();
 
     return userRepository.save(user);
+  }
+
+  private static UserDto mapToUserDto(User user) {
+    return new UserDto(
+        user.getId(),
+        user.getUsername(),
+        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList(),
+        user.getEmail());
   }
 }
