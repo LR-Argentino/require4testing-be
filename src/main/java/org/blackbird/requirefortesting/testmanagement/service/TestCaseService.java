@@ -2,10 +2,11 @@ package org.blackbird.requirefortesting.testmanagement.service;
 
 import java.util.List;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
+import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 
 public interface TestCaseService {
-  TestCaseDto createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId);
+  TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId);
 
   void deleteTestCase(Long testCaseId);
 

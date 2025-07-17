@@ -20,11 +20,11 @@ public class TestCaseServiceImpl implements TestCaseService {
 
   @Override
   @Transactional
-  public TestCaseDto createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
+  public TestCase createTestCase(CreateOrUpdateTestCaseDto createTestCaseDto, Long userId) {
     validateTestCaseDto(createTestCaseDto);
     TestCase savedTestCase = testCaseRepository.save(mapToTestCase(createTestCaseDto, userId));
 
-    return mapToDto(savedTestCase);
+    return savedTestCase;
   }
 
   @Override

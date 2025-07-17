@@ -1,15 +1,13 @@
 package org.blackbird.requirefortesting.security.internal;
 
 import jakarta.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.security.internal.repository.UserRepository;
 import org.blackbird.requirefortesting.security.model.CreateUserDto;
 import org.blackbird.requirefortesting.security.model.User;
+import org.blackbird.requirefortesting.security.model.UserBatchDto;
 import org.blackbird.requirefortesting.security.model.UserDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -47,11 +45,11 @@ public class PostgresUserDetailsService implements UserDetailsService {
   }
 
   @Transactional(readOnly = true)
-  public Map<Long, UserDto> getUsersByIds(Set<Long> userIds) {
+  public Map<Long, UserBatchDto> getUsersByIds(Set<Long> userIds) {
     List<User> users = userRepository.findAllById(userIds);
-    Map<Long, UserDto> userMap =
+    Map<Long, UserBatchDto> userMap =
         users.stream()
-            .collect(Collectors.toMap(User::getId, PostgresUserDetailsService::mapToUserDto));
+            .collect(Collectors.toMap(User::getId, PostgresUserDetailsService::mapToUserBatchDto));
     return userMap;
   }
 
@@ -94,5 +92,9 @@ public class PostgresUserDetailsService implements UserDetailsService {
         user.getUsername(),
         user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList(),
         user.getEmail());
+  }
+
+  private static UserBatchDto mapToUserBatchDto(User users) {
+    return new UserBatchDto(users.getId(), users.getUsername(), users.getEmail());
   }
 }
