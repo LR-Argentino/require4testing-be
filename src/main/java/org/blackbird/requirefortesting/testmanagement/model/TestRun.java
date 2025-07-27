@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.testmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -44,5 +45,6 @@ public class TestRun {
       joinColumns = @JoinColumn(name = "test_run_id"),
       inverseJoinColumns = @JoinColumn(name = "test_case_id"))
   @Builder.Default
+  @JsonManagedReference
   private Set<TestCase> testCases = new HashSet<>();
 }

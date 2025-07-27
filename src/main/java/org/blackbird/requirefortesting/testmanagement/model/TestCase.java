@@ -1,5 +1,6 @@
 package org.blackbird.requirefortesting.testmanagement.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -55,5 +56,6 @@ public class TestCase {
 
   @ManyToMany(mappedBy = "testCases", fetch = FetchType.LAZY)
   @Builder.Default
+  @JsonBackReference
   private Set<TestRun> testRuns = new HashSet<>();
 }
