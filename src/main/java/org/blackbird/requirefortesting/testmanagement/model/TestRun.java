@@ -5,18 +5,17 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "test_run")
-@Data
-@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class TestRun {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -33,13 +32,14 @@ public class TestRun {
   private LocalDateTime endTime;
 
   @Enumerated(EnumType.STRING)
-  @Builder.Default
   private TestRunStatus status = TestRunStatus.PLANNED;
 
   @Column(nullable = false)
   private Long createdBy;
 
-  @ManyToMany(fetch = FetchType.LAZY)
+  @ManyToMany(
+      fetch = FetchType.LAZY,
+      cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @JoinTable(
       name = "test_run_test_case",
       joinColumns = @JoinColumn(name = "test_run_id"),
