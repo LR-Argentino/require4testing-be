@@ -12,7 +12,6 @@ import org.blackbird.requirefortesting.testmanagement.internal.TestCaseServiceIm
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
-import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ public class TestCaseIntegrationTests {
   @Autowired private TestCaseRepository testCaseRepository;
   @Autowired private TestCaseServiceImpl testCaseServiceImpl;
 
-  private TestCaseDto testCase1, testCase2, testCase3;
+  private TestCase testCase1, testCase2, testCase3;
 
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {
@@ -49,10 +48,10 @@ public class TestCaseIntegrationTests {
     CreateOrUpdateTestCaseDto testCase =
         new CreateOrUpdateTestCaseDto(title, description, 1L, null);
 
-    TestCaseDto createdTestCase = testCaseServiceImpl.createTestCase(testCase, 1L);
+    TestCase createdTestCase = testCaseServiceImpl.createTestCase(testCase, 1L);
 
-    assertNotNull(createdTestCase.id(), "Saved test case should have an ID");
-    assertEquals("Sample Test Case", createdTestCase.title(), "Test case name should match");
+    assertNotNull(createdTestCase.getId(), "Saved test case should have an ID");
+    assertEquals("Sample Test Case", createdTestCase.getTitle(), "Test case name should match");
   }
 
   @Test
@@ -60,11 +59,11 @@ public class TestCaseIntegrationTests {
   void test_fetchTestCaseById_shouldReturnTestCaseWithTestRuns() {
     TestCase testCase =
         testCaseRepository
-            .findById(testCase1.id())
+            .findById(testCase1.getId())
             .orElseThrow(
-                () -> new AssertionError("Test case with ID " + testCase1.id() + " not found"));
+                () -> new AssertionError("Test case with ID " + testCase1.getId() + " not found"));
 
-    assertEquals(testCase1.id(), testCase.getId(), "Test case ID should match");
+    assertEquals(testCase1.getId(), testCase.getId(), "Test case ID should match");
     assertEquals("Test Case 1", testCase.getTitle(), "Test case title should match");
     assertEquals("Description 1", testCase.getDescription(), "Test case description should match");
   }
@@ -161,7 +160,7 @@ public class TestCaseIntegrationTests {
         "Should throw exception for negative requirement ID");
   }
 
-  private TestCaseDto createTestCase(String title, String description, Status status) {
+  private TestCase createTestCase(String title, String description, Status status) {
     CreateOrUpdateTestCaseDto testCaseDto =
         new CreateOrUpdateTestCaseDto(title, description, 1L, status);
     return testCaseServiceImpl.createTestCase(testCaseDto, 1L);

@@ -9,7 +9,6 @@ import org.blackbird.requirefortesting.testmanagement.internal.TestCaseServiceIm
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.model.CreateOrUpdateTestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
-import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -99,12 +98,12 @@ class TestCaseServiceCreateTests {
     CreateOrUpdateTestCaseDto createTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, status);
 
-    TestCaseDto result = testManagementService.createTestCase(createTestCaseDto, 1L);
+    TestCase result = testManagementService.createTestCase(createTestCaseDto, 1L);
 
-    assertEquals(validTitle, result.title());
-    assertEquals(description, result.description());
-    assertEquals(status, result.status());
-    assertNull(result.testResult());
+    assertEquals(validTitle, result.getTitle());
+    assertEquals(description, result.getDescription());
+    assertEquals(status, result.getStatus());
+    assertNull(result.getTestResult());
   }
 
   @Test
@@ -127,12 +126,12 @@ class TestCaseServiceCreateTests {
     CreateOrUpdateTestCaseDto createTestCaseDto =
         new CreateOrUpdateTestCaseDto(validTitle, description, requirementId, null);
 
-    TestCaseDto result = testManagementService.createTestCase(createTestCaseDto, 1L);
+    TestCase result = testManagementService.createTestCase(createTestCaseDto, 1L);
 
-    assertEquals(requirementId, result.requirementId());
-    assertEquals(validTitle, result.title());
-    assertEquals(description, result.description());
-    assertEquals(Status.OPEN, result.status());
-    assertNull(result.testResult());
+    assertEquals(requirementId, result.getRequirementId());
+    assertEquals(validTitle, result.getTitle());
+    assertEquals(description, result.getDescription());
+    assertEquals(Status.OPEN, result.getStatus());
+    assertNull(result.getTestResult());
   }
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.security.internal.PostgresUserDetailsService;
+import org.blackbird.requirefortesting.security.model.UserBatchDto;
 import org.blackbird.requirefortesting.security.model.UserDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +24,8 @@ public class UserController {
   }
 
   @PostMapping("/batch")
-  public ResponseEntity<Map<Long, UserDto>> getUsersByIds(@RequestBody Set<Long> userIds) {
-    Map<Long, UserDto> users = userDetailsService.getUsersByIds(userIds);
+  public ResponseEntity<Map<Long, UserBatchDto>> getUsersByIds(@RequestBody Set<Long> userIds) {
+    Map<Long, UserBatchDto> users = userDetailsService.getUsersByIds(userIds);
     return ResponseEntity.ok(users);
   }
 
