@@ -30,7 +30,8 @@ class TestRunServiceCreateTests {
   @Test
   void test_createTestRunWithNullTitle_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        new CreateTestRunDto(
+            null, null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -38,7 +39,8 @@ class TestRunServiceCreateTests {
   @Test
   void test_createTestRunWithBlankTitle_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto("   ", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        new CreateTestRunDto(
+            "   ", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -46,14 +48,14 @@ class TestRunServiceCreateTests {
   @Test
   void test_createTestRunWithEmptyTitle_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto("", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1));
+        new CreateTestRunDto("", null, LocalDateTime.now(), LocalDateTime.now().plusDays(1), null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
 
   @Test
   void test_createTestRunWithNullStartDateAndEndDate_shouldThrowException() {
-    CreateTestRunDto createTestRunDto = new CreateTestRunDto("Title", null, null, null);
+    CreateTestRunDto createTestRunDto = new CreateTestRunDto("Title", null, null, null, null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -65,7 +67,8 @@ class TestRunServiceCreateTests {
             "Title",
             "Some Description",
             LocalDateTime.now().minusMinutes(1),
-            LocalDateTime.now().plusMinutes(1));
+            LocalDateTime.now().plusMinutes(1),
+            null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -77,7 +80,8 @@ class TestRunServiceCreateTests {
             "Title",
             "Some Description",
             LocalDateTime.now().plusDays(1),
-            LocalDateTime.now().plusMinutes(1));
+            LocalDateTime.now().plusMinutes(1),
+            null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -89,7 +93,8 @@ class TestRunServiceCreateTests {
             "Title",
             "Some Description",
             LocalDateTime.now().plusDays(1),
-            LocalDateTime.now().minusMinutes(1));
+            LocalDateTime.now().minusMinutes(1),
+            null);
 
     assertThrows(IllegalArgumentException.class, () -> testRunService.create(createTestRunDto, 1L));
   }
@@ -101,7 +106,8 @@ class TestRunServiceCreateTests {
             "Title",
             "Some Description",
             LocalDateTime.now().plusDays(1),
-            LocalDateTime.now().plusDays(7));
+            LocalDateTime.now().plusDays(7),
+            null);
 
     assertDoesNotThrow(() -> testRunService.create(createTestRunDto, 1L));
   }
@@ -113,7 +119,8 @@ class TestRunServiceCreateTests {
             "Smoke Test",
             "Some Description",
             LocalDateTime.now(),
-            LocalDateTime.now().plusHours(1));
+            LocalDateTime.now().plusHours(1),
+            null);
 
     TestRun savedTestRun =
         TestRun.builder()
