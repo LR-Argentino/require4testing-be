@@ -13,6 +13,8 @@ public interface TestRunService {
 
   List<TestRun> getAllTestRuns();
 
+  List<TestRun> getTestRunsByUserId(Long userId);
+
   TestRun getTestRunById(Long testRunId);
 
   void addTestCase(Long testRunId, Long testCaseId);

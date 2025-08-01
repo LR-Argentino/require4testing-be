@@ -1,6 +1,7 @@
 package org.blackbird.requirefortesting.testmanagement.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Data Transfer Object for creating a Test Run. Notice that the <code>Status</code> is not included
@@ -12,4 +13,8 @@ import java.time.LocalDateTime;
  * @param endDate
  */
 public record CreateTestRunDto(
-    String title, String description, LocalDateTime startDate, LocalDateTime endDate) {}
+    String title,
+    String description,
+    LocalDateTime startDate,
+    LocalDateTime endDate,
+    List<Long> testCaseIds) {}

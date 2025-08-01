@@ -36,7 +36,8 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
 
-    CreateTestRunDto testRunDto = new CreateTestRunDto(title, description, startTime, endTime);
+    CreateTestRunDto testRunDto =
+        new CreateTestRunDto(title, description, startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -50,7 +51,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto invalidTestCase =
-        new CreateTestRunDto(null, "Description", startTime, endTime);
+        new CreateTestRunDto(null, "Description", startTime, endTime, null);
 
     assertThrows(
         Exception.class,
@@ -66,7 +67,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = startTime.minusDays(1);
     CreateTestRunDto invalidTestCase =
-        new CreateTestRunDto("Valid Title", "Description", startTime, endTime);
+        new CreateTestRunDto("Valid Title", "Description", startTime, endTime, null);
 
     assertThrows(
         Exception.class,
@@ -81,7 +82,7 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withNullStartTime_shouldThrowException() {
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto invalidTestCase =
-        new CreateTestRunDto("Valid Title", "Description", null, endTime);
+        new CreateTestRunDto("Valid Title", "Description", null, endTime, null);
 
     assertThrows(
         Exception.class,
@@ -96,7 +97,7 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withNullEndTime_shouldThrowException() {
     LocalDateTime startTime = LocalDateTime.now();
     CreateTestRunDto invalidTestCase =
-        new CreateTestRunDto("Valid Title", "Description", startTime, null);
+        new CreateTestRunDto("Valid Title", "Description", startTime, null, null);
 
     assertThrows(
         Exception.class,
@@ -111,7 +112,8 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withEmptyTitle_shouldThrowException() {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
-    CreateTestRunDto invalidTestCase = new CreateTestRunDto("", "Description", startTime, endTime);
+    CreateTestRunDto invalidTestCase =
+        new CreateTestRunDto("", "Description", startTime, endTime, null);
 
     assertThrows(
         Exception.class,
@@ -126,7 +128,8 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withNullDescription_shouldSucceed() {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
-    CreateTestRunDto testRunDto = new CreateTestRunDto("Valid Title", null, startTime, endTime);
+    CreateTestRunDto testRunDto =
+        new CreateTestRunDto("Valid Title", null, startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -140,7 +143,7 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withEmptyDescription_shouldSucceed() {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
-    CreateTestRunDto testRunDto = new CreateTestRunDto("Valid Title", "", startTime, endTime);
+    CreateTestRunDto testRunDto = new CreateTestRunDto("Valid Title", "", startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -156,7 +159,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto testRunDto =
-        new CreateTestRunDto(specialTitle, "Description", startTime, endTime);
+        new CreateTestRunDto(specialTitle, "Description", startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -171,7 +174,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = LocalDateTime.now().plusDays(10);
     CreateTestRunDto testRunDto =
-        new CreateTestRunDto(unicodeTitle, "Unicode описание", startTime, endTime);
+        new CreateTestRunDto(unicodeTitle, "Unicode описание", startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -184,7 +187,7 @@ public class TestRunIntegrationTests {
   void test_createTestRun_withSameStartAndEndTime_shouldThrowException() {
     LocalDateTime sameTime = LocalDateTime.now();
     CreateTestRunDto invalidTestCase =
-        new CreateTestRunDto("Valid Title", "Description", sameTime, sameTime);
+        new CreateTestRunDto("Valid Title", "Description", sameTime, sameTime, null);
 
     assertThrows(
         Exception.class,
@@ -200,7 +203,7 @@ public class TestRunIntegrationTests {
     LocalDateTime pastStartTime = LocalDateTime.now().minusDays(5);
     LocalDateTime futureEndTime = LocalDateTime.now().plusDays(5);
     CreateTestRunDto testRunDto =
-        new CreateTestRunDto("Past Start Test", "Description", pastStartTime, futureEndTime);
+        new CreateTestRunDto("Past Start Test", "Description", pastStartTime, futureEndTime, null);
 
     assertThrows(Exception.class, () -> testRunService.create(testRunDto, 1L));
   }
@@ -211,7 +214,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime farFutureEndTime = LocalDateTime.now().plusYears(100);
     CreateTestRunDto testRunDto =
-        new CreateTestRunDto("Future Test", "Description", startTime, farFutureEndTime);
+        new CreateTestRunDto("Future Test", "Description", startTime, farFutureEndTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 
@@ -225,7 +228,7 @@ public class TestRunIntegrationTests {
     LocalDateTime startTime = LocalDateTime.now();
     LocalDateTime endTime = startTime.plusMinutes(1);
     CreateTestRunDto testRunDto =
-        new CreateTestRunDto("Minimal Duration", "Description", startTime, endTime);
+        new CreateTestRunDto("Minimal Duration", "Description", startTime, endTime, null);
 
     TestRun createdTestRun = testRunService.create(testRunDto, 1L);
 

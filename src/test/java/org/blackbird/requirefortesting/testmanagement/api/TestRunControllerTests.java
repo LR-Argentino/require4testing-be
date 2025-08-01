@@ -82,7 +82,8 @@ class TestRunControllerTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(2);
 
     CreateTestRunDto dto =
-        new CreateTestRunDto("Integration Test Run", "Real test run", startTime, endTime);
+        new CreateTestRunDto(
+            "Integration Test Run", "Real test run", startTime, endTime, List.of(1L, 2L));
 
     MvcResult result =
         mockMvc
@@ -125,7 +126,8 @@ class TestRunControllerTests {
     LocalDateTime newEndTime = LocalDateTime.now().plusDays(4);
 
     CreateTestRunDto updateDto =
-        new CreateTestRunDto("Updated Test Run", "Updated Description", newStartTime, newEndTime);
+        new CreateTestRunDto(
+            "Updated Test Run", "Updated Description", newStartTime, newEndTime, List.of(1L, 2L));
 
     mockMvc
         .perform(
@@ -341,7 +343,7 @@ class TestRunControllerTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(2);
 
     CreateTestRunDto invalidDto =
-        new CreateTestRunDto(null, "Valid description", startTime, endTime);
+        new CreateTestRunDto(null, "Valid description", startTime, endTime, List.of(1L, 2L));
 
     mockMvc
         .perform(
@@ -362,7 +364,7 @@ class TestRunControllerTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(2);
 
     CreateTestRunDto invalidDto =
-        new CreateTestRunDto("Valid Title", "Valid description", null, endTime);
+        new CreateTestRunDto("Valid Title", "Valid description", null, endTime, List.of(1L, 2L));
 
     mockMvc
         .perform(
@@ -383,7 +385,7 @@ class TestRunControllerTests {
     LocalDateTime startTime = LocalDateTime.now().plusDays(1);
 
     CreateTestRunDto invalidDto =
-        new CreateTestRunDto("Valid Title", "Valid description", startTime, null);
+        new CreateTestRunDto("Valid Title", "Valid description", startTime, null, List.of(1L, 2L));
 
     mockMvc
         .perform(
@@ -405,7 +407,8 @@ class TestRunControllerTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(1); // Before start time
 
     CreateTestRunDto invalidDto =
-        new CreateTestRunDto("Valid Title", "Valid description", startTime, endTime);
+        new CreateTestRunDto(
+            "Valid Title", "Valid description", startTime, endTime, List.of(1L, 2L));
 
     mockMvc
         .perform(
@@ -427,7 +430,8 @@ class TestRunControllerTests {
     LocalDateTime endTime = LocalDateTime.now().plusDays(2);
 
     CreateTestRunDto updateDto =
-        new CreateTestRunDto("Updated Title", "Updated description", startTime, endTime);
+        new CreateTestRunDto(
+            "Updated Title", "Updated description", startTime, endTime, List.of(1L, 2L));
 
     mockMvc
         .perform(

@@ -31,7 +31,7 @@ class TestRunServiceUpdateTests {
 
   @Test
   void test_updateTestRunWithWithNotExistingId_shouldThrowException() {
-    CreateTestRunDto createTestRunDto = new CreateTestRunDto("Test Run", null, null, null);
+    CreateTestRunDto createTestRunDto = new CreateTestRunDto("Test Run", null, null, null, null);
     Long nonExistingId = 999L;
 
     when(testRunRepository.findById(nonExistingId)).thenReturn(Optional.empty());
@@ -43,7 +43,7 @@ class TestRunServiceUpdateTests {
 
   @Test
   void test_updateTestRunWithInvalidTitle_shouldThrowException() {
-    CreateTestRunDto createTestRunDto = new CreateTestRunDto("  ", null, null, null);
+    CreateTestRunDto createTestRunDto = new CreateTestRunDto("  ", null, null, null, null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -68,7 +68,8 @@ class TestRunServiceUpdateTests {
             "Some Test",
             "Some description",
             LocalDateTime.now().minusDays(1),
-            LocalDateTime.now().minusDays(2));
+            LocalDateTime.now().minusDays(2),
+            null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -90,7 +91,7 @@ class TestRunServiceUpdateTests {
   void test_updateTestRunOnStatusPlannedAndStartDateInPast_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
         new CreateTestRunDto(
-            "Some Test", "Some description", LocalDateTime.now().minusDays(1), null);
+            "Some Test", "Some description", LocalDateTime.now().minusDays(1), null, null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -112,7 +113,7 @@ class TestRunServiceUpdateTests {
   void test_updateTestRunOnStatusInProgressAndStartDateInPast_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
         new CreateTestRunDto(
-            "Some Test", "Some description", LocalDateTime.now().minusDays(1), null);
+            "Some Test", "Some description", LocalDateTime.now().minusDays(1), null, null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -133,7 +134,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunWithStartDateInPast_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, LocalDateTime.now().plusDays(1), null);
+        new CreateTestRunDto(null, null, LocalDateTime.now().plusDays(1), null, null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -154,7 +155,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunsEndDateOnStatusCompleted_shouldThrowException() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3));
+        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3), null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -175,7 +176,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunsEndDateOnStatusInProgress_shouldUpdateEndDate() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3));
+        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3), null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -199,7 +200,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunsEndDateOnStatusInPlanned_shouldUpdateEndDate() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3));
+        new CreateTestRunDto(null, null, null, LocalDateTime.now().plusDays(3), null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -223,7 +224,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunsEndDateBeforeStartDate_shouldUpdateEndDate() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, null, LocalDateTime.now().minusDays(3));
+        new CreateTestRunDto(null, null, null, LocalDateTime.now().minusDays(3), null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")
@@ -244,7 +245,7 @@ class TestRunServiceUpdateTests {
   @Test
   void test_updateTestRunsEndDateIsPast_shouldUpdateEndDate() {
     CreateTestRunDto createTestRunDto =
-        new CreateTestRunDto(null, null, null, LocalDateTime.now().minusMinutes(1));
+        new CreateTestRunDto(null, null, null, LocalDateTime.now().minusMinutes(1), null);
     TestRun fetchedTestRun =
         TestRun.builder()
             .title("Smoke Teste")

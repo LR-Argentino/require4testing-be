@@ -58,4 +58,12 @@ public class TestRunController {
     testRunService.addTestCase(testRunId, testCaseId);
     return ResponseEntity.noContent().build();
   }
+
+  @GetMapping("/user/")
+  public ResponseEntity<List<TestRun>> getTestRunByUserId(
+      @RequestHeader(AUTHORIZATION_HEADER) String authToken) {
+    Long userId = jwtUtil.extractUserId(authToken);
+    List<TestRun> testRun = testRunService.getTestRunsByUserId(userId);
+    return ResponseEntity.ok(testRun);
+  }
 }

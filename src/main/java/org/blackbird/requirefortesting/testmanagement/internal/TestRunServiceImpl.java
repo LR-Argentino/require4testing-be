@@ -1,7 +1,9 @@
 package org.blackbird.requirefortesting.testmanagement.internal;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestCaseRepository;
 import org.blackbird.requirefortesting.testmanagement.internal.repository.TestRunRepository;
@@ -10,6 +12,7 @@ import org.blackbird.requirefortesting.testmanagement.internal.validation.Valida
 import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
+import org.blackbird.requirefortesting.testmanagement.model.TestRunStatus;
 import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +29,14 @@ public class TestRunServiceImpl implements TestRunService {
   public TestRun create(CreateTestRunDto testRunDto, Long userId) {
     TestRunValidator.validateNotNull(testRunDto, ValidationMessage.NULL_TEST_RUN_DTO.getMessage());
     TestRunValidator.validateForCreation(testRunDto);
+    TestRun createdTestRun = mapToTestRun(testRunDto, userId);
+    if (testRunDto.testCaseIds() != null && !testRunDto.testCaseIds().isEmpty()) {
+      Set<TestCase> testCases =
+          new HashSet<>(testCaseRepository.findAllById(testRunDto.testCaseIds()));
+      createdTestRun.setTestCases(testCases);
+    }
 
-    return testRunRepository.save(mapToTestRun(testRunDto, userId));
+    return testRunRepository.save(createdTestRun);
   }
 
   @Override
@@ -79,6 +88,12 @@ public class TestRunServiceImpl implements TestRunService {
 
   @Override
   @Transactional(readOnly = true)
+  public List<TestRun> getTestRunsByUserId(Long userId) {
+    return testRunRepository.findAllByCreatedBy(userId);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
   public TestRun getTestRunById(Long testRunId) {
     return findTestRunById(testRunId);
   }
@@ -121,6 +136,7 @@ public class TestRunServiceImpl implements TestRunService {
         .description(testRunDto.description())
         .startTime(testRunDto.startDate())
         .endTime(testRunDto.endDate())
+        .status(TestRunStatus.PLANNED)
         .createdBy(userId)
         .build();
   }
