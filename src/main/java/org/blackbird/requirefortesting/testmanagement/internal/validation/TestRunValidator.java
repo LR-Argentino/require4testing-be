@@ -38,7 +38,7 @@ public class TestRunValidator {
   public static void validateStartDate(CreateTestRunDto testRunDto) {
     LocalDateTime now = LocalDateTime.now();
     if (testRunDto.startDate() != null
-        && testRunDto.startDate().isBefore(now.minusSeconds(BUFFER_FOR_CLOCK_SKEW_SECONDS))) {
+        && testRunDto.startDate().isBefore(now.minusMinutes(BUFFER_FOR_CLOCK_SKEW_SECONDS))) {
       throw new IllegalArgumentException("Test run start date cannot be in the past");
     }
     if (testRunDto.endDate() != null && testRunDto.startDate().isAfter(testRunDto.endDate())) {
