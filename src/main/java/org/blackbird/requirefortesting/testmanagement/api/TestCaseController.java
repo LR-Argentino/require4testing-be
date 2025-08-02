@@ -8,6 +8,7 @@ import org.blackbird.requirefortesting.testmanagement.model.TestCase;
 import org.blackbird.requirefortesting.testmanagement.model.TestCaseDto;
 import org.blackbird.requirefortesting.testmanagement.service.TestCaseService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class TestCaseController {
 
   private final JwtService jwtUtil;
 
+  @PreAuthorize("hasRole('TEST_CASE_CREATOR')")
   @PostMapping
   public ResponseEntity<TestCase> createTestCase(
       @RequestHeader(AUTHORIZATION_HEADER) String authToken,
@@ -29,12 +31,14 @@ public class TestCaseController {
     return ResponseEntity.ok(testCase);
   }
 
+  @PreAuthorize("hasRole('TEST_CASE_CREATOR')")
   @PostMapping("/{id}")
   public ResponseEntity<Void> deleteTestCase(@PathVariable Long id) {
     testCaseService.deleteTestCase(id);
     return ResponseEntity.noContent().build();
   }
 
+  @PreAuthorize("hasRole('TEST_CASE_CREATOR')")
   @PutMapping("/{id}")
   public ResponseEntity<TestCaseDto> updateTestCase(
       @PathVariable Long id, @RequestBody CreateOrUpdateTestCaseDto updateTestCaseDto) {

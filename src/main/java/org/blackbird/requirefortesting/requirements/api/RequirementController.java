@@ -30,6 +30,7 @@ public class RequirementController {
     return ResponseEntity.ok(newRequirement);
   }
 
+  @PreAuthorize("hasRole('REQUIREMENTS_ENGINEER')")
   @PutMapping("/{id}")
   public ResponseEntity<Requirement> updateRequirement(
       @PathVariable Long id, @RequestBody CreateOrUpdateRequirementDto requirement) {
@@ -37,6 +38,7 @@ public class RequirementController {
     return ResponseEntity.ok(updatedRequirement);
   }
 
+  @PreAuthorize("hasRole('REQUIREMENTS_ENGINEER')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteRequirement(@PathVariable Long id) {
     requirementService.deleteRequirement(id);

@@ -7,6 +7,7 @@ import org.blackbird.requirefortesting.testmanagement.model.CreateTestRunDto;
 import org.blackbird.requirefortesting.testmanagement.model.TestRun;
 import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,6 +19,7 @@ public class TestRunController {
 
   private final JwtService jwtUtil;
 
+  @PreAuthorize("hasRole('TEST_MANAGER')")
   @PostMapping("/{userId}")
   public ResponseEntity<TestRun> createTestRun(
       @PathVariable Long userId, @RequestBody CreateTestRunDto testRunDto) {
@@ -25,6 +27,7 @@ public class TestRunController {
     return ResponseEntity.ok(testRun);
   }
 
+  @PreAuthorize("hasRole('TEST_MANAGER')")
   @PutMapping("/{id}")
   public ResponseEntity<TestRun> updateTestRun(
       @PathVariable Long id, @RequestBody CreateTestRunDto testRunDto) {
@@ -38,6 +41,7 @@ public class TestRunController {
     return ResponseEntity.ok(testRun);
   }
 
+  @PreAuthorize("hasRole('TEST_MANAGER')")
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteTestRun(@PathVariable Long id) {
     testRunService.delete(id);
@@ -50,6 +54,7 @@ public class TestRunController {
     return ResponseEntity.ok(testRuns);
   }
 
+  @PreAuthorize("hasRole('TEST_MANAGER')")
   @PostMapping("/{testRunId}/test-cases/{testCaseId}")
   public ResponseEntity<Void> addTestCaseToTestRun(
       @PathVariable Long testRunId, @PathVariable Long testCaseId) {
