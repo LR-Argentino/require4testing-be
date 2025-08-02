@@ -87,11 +87,16 @@ public class PostgresUserDetailsService implements UserDetailsService {
   }
 
   private static UserDto mapToUserDto(User user) {
-    return new UserDto(
-        user.getId(),
-        user.getUsername(),
-        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList(),
-        user.getEmail());
+    if (user.getAuthorities() == null) {
+      return new UserDto(
+          user.getId(), user.getUsername(), Collections.emptyList(), user.getEmail());
+    } else {
+      return new UserDto(
+          user.getId(),
+          user.getUsername(),
+          user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList(),
+          user.getEmail());
+    }
   }
 
   private static UserBatchDto mapToUserBatchDto(User users) {

@@ -18,11 +18,9 @@ public class TestRunController {
 
   private final JwtService jwtUtil;
 
-  @PostMapping
+  @PostMapping("/{userId}")
   public ResponseEntity<TestRun> createTestRun(
-      @RequestHeader(AUTHORIZATION_HEADER) String authToken,
-      @RequestBody CreateTestRunDto testRunDto) {
-    Long userId = jwtUtil.extractUserId(authToken);
+      @PathVariable Long userId, @RequestBody CreateTestRunDto testRunDto) {
     TestRun testRun = testRunService.create(testRunDto, userId);
     return ResponseEntity.ok(testRun);
   }
