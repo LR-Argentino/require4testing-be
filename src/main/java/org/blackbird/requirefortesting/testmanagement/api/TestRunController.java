@@ -9,6 +9,20 @@ import org.blackbird.requirefortesting.testmanagement.service.TestRunService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+/*
+ TODO: Trenne die Verantwortlichkeit - Vertrag gehört in einer Schnittstelle & "Business Logik" im Controller.
+ Beispiel:
+ 
+ @RequestMapping("/users")
+ public interface UserApi {
+
+    @GetMapping("/{id}")
+    ResponseEntity<UserDto> getUserById(@PathVariable Long id);
+
+    @PostMapping
+    ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest request);
+}
+*/
 
 @RestController
 @RequestMapping("/api/test-runs")
